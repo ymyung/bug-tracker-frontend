@@ -1,0 +1,205 @@
+.navbar {
+    background-color: rgb(26, 26, 49);
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: fixed;
+    width: 100vw;
+    z-index: 2;
+
+    .navbar-left {
+        display: flex;
+        align-items: center;
+        margin-left: 1rem;
+        margin-right: 3rem;
+
+        .sidebar-button {
+            color: white;
+            display: flex;
+            cursor: pointer;
+
+            .menu {
+                font-size: 4rem;
+            }
+        }
+
+        .sidebar {
+            background-color: rgb(26, 26, 49);
+            min-height: 100vh;
+            z-index: 4;
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 2.5rem;
+            width: 15.4rem;
+            transform: translateX(-15.4rem);
+            transition: transform .3s;
+
+            .x {
+                font-size: 5rem;
+                margin-top: .5rem;
+                margin-left: .5rem;
+                margin-bottom: 0;
+                cursor: pointer;
+            }
+        
+            ul {
+
+                li {
+                    height: 2rem;
+                    display: flex;
+                    align-items: center;
+                    margin: 0 .5rem 2.5rem .5rem;
+            
+                    a {
+                        color: rgb(181, 181, 181);
+                        text-decoration: none;
+                        height: 3.5rem;
+                        width: 100%;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        padding: 0 .5rem;
+                        border-radius: 10%;
+            
+                        span {
+                            margin-right: .5rem;
+                        }
+                    }
+            
+                    a:hover {
+                        color: white;
+                        background-color: rgb(54, 54, 102);
+                    }
+                
+                    a.active {
+                        color: white;
+                        background-color: rgb(54, 54, 102);
+                    }
+                }
+            }
+        }
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(.1rem);
+        z-index: 3;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+
+    .sidebar--open .sidebar-overlay {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .sidebar--open .sidebar {
+        transform: translateX(0);
+    }
+
+    .navbar-middle {
+        .navbar-logo {
+            font-size: 2.5rem;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            visibility: hidden;
+            position: absolute;
+
+            .bug {
+                font-size: 2.5rem;
+                margin-right: .5rem;
+            }
+        }
+    }
+
+    .navbar-right {
+        display: flex;
+        align-items: center;
+
+        a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            width: 2.5rem;
+            color: white;
+            position: relative;
+
+                .chat {
+                    font-size: 2.5rem;
+                    visibility: hidden;
+                }
+    
+                .chat--notification {
+                    font-size: 1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    top: -.5rem;
+                    right: -2rem;
+                    background-color: red;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    border-radius: 50%;
+                }
+        }
+
+        span {
+            margin-right: 1.5rem;
+            cursor: pointer;
+        }
+        
+        a {
+            margin-right: 1.5rem;
+            cursor: pointer;
+
+            .navbar-image {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%;
+                object-fit: cover;
+                display: flex;
+            }
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .navbar-middle {
+            .navbar-logo {
+                visibility: visible;
+                position: relative;
+            }
+        }
+
+        .navbar-right {
+            a {
+                .chat {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+    
+    @media screen and (min-height: 650px) {
+        .navbar-left {
+            .sidebar {
+                ul {
+                    li {
+                        height: 2.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
