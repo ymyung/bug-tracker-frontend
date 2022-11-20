@@ -59,8 +59,8 @@ const Navbar = () => {
                     <span className="material-symbols-outlined chat">chat</span>
                     <span className="chat--notification">1</span>
                 </NavLink>
-                <NavLink onClick={closeSidebar} exact="true" to="/profile">
-                    <img className="navbar-image" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="" />
+                <NavLink className="navbar-image-container" onClick={closeSidebar} exact="true" to="/profile">
+                    <img className="navbar-image" src="https://i.pinimg.com/600x315/4e/24/3c/4e243cc596ec994e7a8c9711b1034a11.jpg" alt="" />
                 </NavLink>
             </div>
         </div>
