@@ -25,7 +25,7 @@ function App() {
                     <Route path="/projects" exact="true" element={<Projects />} />
                     <Route path="/users" exact="true" element={<Users />} />
                     <Route path="/messages" exact="true" element={<Messages />} />
-                    <Route path="/my-ticket" exact="true" element={<MyTicket />} />
+                    <Route path="/my-tickets" exact="true" element={<MyTicket />} />
                     <Route path="/profile" exact="true" element={<Profile />} />
                     <Route path="/login" exact="true" element={<Login />} />
                     <Route path="*" element={<Error />} />

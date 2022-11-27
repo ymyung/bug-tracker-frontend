@@ -53,7 +53,7 @@
                     align-items: center;
                     margin: 0 .5rem 2.5rem .5rem;
             
-                    a {
+                    a, .sidebar-logout {
                         color: rgb(181, 181, 181);
                         text-decoration: none;
                         height: 3.5rem;
@@ -63,18 +63,19 @@
                         align-items: center;
                         padding: 0 .5rem;
                         border-radius: 10%;
+                        cursor: pointer;
             
                         span {
                             margin-right: .5rem;
                         }
                     }
             
-                    a:hover {
+                    a:hover, .sidebar-logout:hover {
                         color: white;
                         background-color: rgb(54, 54, 102);
                     }
                 
-                    a.active {
+                    a.active, .sidebar-logout.active {
                         color: white;
                         background-color: rgb(54, 54, 102);
                     }
@@ -106,7 +107,12 @@
         transform: translateX(0);
     }
 
+    .sidebar--logout .sidebar-overlay {
+        z-index: 5;
+    }
+
     .navbar-middle {
+
         .navbar-logo {
             font-size: 2.5rem;
             text-decoration: none;

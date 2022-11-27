@@ -1,0 +1,52 @@
+.project-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70vh;
+    padding: 1rem;
+
+    .project-left {
+        color: gray;
+    }
+
+    .project-right {
+        font-size: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .project-right-numbers {
+        font-size: 3rem;
+    }
+
+    .project-title {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .project-details-devs {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .project-details-tickets {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .project-description {
+        flex: 2;
+        
+        .project-right {
+            margin-top: .5rem;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        height: 80vh;
+        margin-right: 2rem;
+    }
+}

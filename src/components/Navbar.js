@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from "react-router-dom"
 
+import Logout from './Logout'
 import "./Navbar.scss"
 
 const Navbar = () => {
@@ -14,8 +15,13 @@ const Navbar = () => {
         setNavbarLeft("navbar-left")
     }
 
+    const openLogout = () => {
+        setNavbarLeft("navbar-left sidebar--open sidebar--logout")
+    }
+
     return (
         <div className="navbar">
+            {navbarLeft === "navbar-left sidebar--open sidebar--logout" && <Logout closeSidebar={closeSidebar} />}
             <div className={navbarLeft}>
                 <div onClick={closeSidebar} className="sidebar-overlay"></div>
                 <div onClick={openSidebar} className="sidebar-button">
@@ -43,7 +49,7 @@ const Navbar = () => {
                             <NavLink onClick={closeSidebar} exact="true" to="/profile"><span className="material-symbols-outlined">person</span>Profile</NavLink>
                         </li>
                         <li>
-                            <NavLink onClick={closeSidebar} exact="true" to="/logout"><span className="material-symbols-outlined">logout</span>Logout</NavLink>
+                            <div onClick={openLogout} className='sidebar-logout'><span className="material-symbols-outlined">logout</span>Logout</div>
                         </li>
                     </ul>
                 </nav>

@@ -1,0 +1,90 @@
+.project-tickets {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    justify-content: space-between;
+    padding: 1rem;
+    padding-top: 0;
+
+    .tickets-number {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+    }
+
+    .tickets-left {
+        color: gray;
+        margin-right: 1rem;
+    }
+
+    .tickets-containers {
+        flex: 8;
+        padding: .5rem;
+        
+        .tickets-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid gray;
+            height: 12.5%;
+            justify-content: space-around;
+
+            .tickets-container-top {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+
+                .tickets-name {
+                    flex: 1;
+                    display: flex;
+                }
+    
+                .tickets-role {
+                    flex: 1;
+                    display: flex;
+                }
+            }
+
+            .tickets-container-bottom {
+                display: flex;
+
+                .tickets-email {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .tickets-priority {
+                    flex: 1;
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    .tickets-buttons {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+
+        .tickets-button {
+            height: 2rem;
+            width: 5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        height: 80vh;
+
+        .tickets-number {
+            align-items: flex-start;
+        }
+    }
+}

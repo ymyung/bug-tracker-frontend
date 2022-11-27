@@ -1,2 +1,36 @@
 .dashboard {
+    .graph-buttons {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-bottom: 1px solid white;
+        padding: 1rem;
+
+        .graph-button {
+            margin: 0 auto;
+            height: 2.5rem;
+            min-width: 40vw;
+            padding: .5rem;
+            font-weight: bold;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .graph-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+
+            .graph-button {
+                margin: 0;
+                min-width: 8rem;
+            }
+        }
+    }
 }

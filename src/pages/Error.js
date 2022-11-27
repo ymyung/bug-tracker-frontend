@@ -4,7 +4,7 @@ import "./Error.scss"
 
 const Error = () => {
   return (
-    <div className="error">Error</div>
+    <div className="error">404 - Page Not Found</div>
   )
 }
 

@@ -1,0 +1,16 @@
+.pie {
+    height: 70vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 1rem;
+}
+
+@media screen and (min-width: 768px) {
+    .pie {
+        height: 75vh;
+        padding: none;
+        margin-top: 1rem;
+    }
+}
