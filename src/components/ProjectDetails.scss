@@ -1,52 +1,156 @@
 .project-details {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 70vh;
-    padding: 1rem;
+    padding: .65rem 1rem 1rem 1.5rem;
+    flex-direction: column-reverse;
 
-    .project-left {
-        color: gray;
-    }
-
-    .project-right {
-        font-size: 2rem;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .project-right-numbers {
-        font-size: 3rem;
-    }
-
-    .project-title {
-        flex: 1;
+    .project-details-container {
         display: flex;
         justify-content: space-between;
-    }
-    
-    .project-details-devs {
-        flex: 1;
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .project-details-tickets {
-        flex: 1;
-        display: flex;
-        justify-content: space-between;
-    }
+        flex-direction: column;
+        height: 100%;
 
-    .project-description {
-        flex: 2;
-        
-        .project-right {
-            margin-top: .5rem;
+        .project-left {
+            color: gray;
         }
+    
+        .project-right {
+            font-size: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    
+        .project-right-numbers {
+            font-size: 3rem;
+        }
+    
+        .project-title {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .project-details-devs {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .project-details-tickets {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .project-description {
+            flex: 2;
+            
+            .project-right {
+                margin-top: .5rem;
+            }
+        }
+    }
+
+
+    .edit-project-container {
+        display: flex;
+        justify-content: center;
+        align-items: c;
+        justify-content: flex-start;
+        height: 4rem;
+
+        .project-description-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(.1rem);
+            z-index: 3;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .edit-project-modal {
+            position: fixed;
+            z-index: 4;
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            background-color: rgb(31, 31, 31);
+            width: 80vw;
+            height: 40vh;
+            position: absolute;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: .5rem 1rem 1rem 1rem;
+
+            .project-modal-bottom {
+                display: flex;
+                justify-content: space-between;
+
+                .modal-bottom-buttons {
+                    height: 2.5rem;
+                    width: 7.5rem;
+                    font-weight: bold;
+                    font-size: .9rem;
+                }
+            }
+
+            .edit-project-inputs {
+                width: 100%;
+            }
+        }
+
+        .edit-project-button {
+            justify-content: center;
+            width: 6rem;
+            height: 2rem;
+            background-color: rgb(47, 165, 47);
+            font-weight: bold;
+            font-size: .9rem;
+            cursor: pointer;
+        }
+
+        .edit-project-button:active {
+            background-color: rgb(35, 119, 35);
+        }
+    }
+
+    .edit-project .project-description-backdrop {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .edit-project .edit-project-modal {
+        visibility: visible;
+        opacity: 1;
     }
 
     @media screen and (min-width: 768px) {
         height: 80vh;
         margin-right: 2rem;
+        padding-top: .2rem;
+
+        .edit-project-container {
+            .edit-project-modal {
+                width: 40vw;
+            }
+        }
+
+        .edit-project-container {
+            .edit-project-button {
+                margin-bottom: 2rem;
+            }
+        }
     }
 }

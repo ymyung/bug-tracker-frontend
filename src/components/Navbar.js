@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { NavLink } from "react-router-dom"
 
-import Logout from './Logout'
 import "./Navbar.scss"
 
 const Navbar = () => {
     const [navbarLeft, setNavbarLeft] = useState("navbar-left")
+    const [logoutContainer, setLogoutContainer] = useState('logout--container')
+    const [navbar, setNavbar] =useState('navbar')
 
     const openSidebar = () => {
         setNavbarLeft("navbar-left sidebar--open")
@@ -15,13 +16,38 @@ const Navbar = () => {
         setNavbarLeft("navbar-left")
     }
 
-    const openLogout = () => {
-        setNavbarLeft("navbar-left sidebar--open sidebar--logout")
+    // const openLogout = () => {
+    //     setNavbarLeft("navbar-left sidebar--open sidebar--logout")
+    // }
+
+    const LogoutOpen = () => {
+        setLogoutContainer('logout--container logout-open')
+        setNavbar('navbar logout-open')
+    }
+
+    const logoutClose = () => {
+        setLogoutContainer('logout--container')
+        setNavbar('navbar')
     }
 
     return (
-        <div className="navbar">
-            {navbarLeft === "navbar-left sidebar--open sidebar--logout" && <Logout closeSidebar={closeSidebar} />}
+        <div className={navbar}>
+            <div className='logout'>
+                <div className={logoutContainer}>
+                    <div onClick={logoutClose} className="logout-backdrop"></div>
+                    <div className="logout-modal">
+                        <div className="logout--head">
+                            <div className="title">
+                                <h1>Logout</h1>
+                            </div>
+                        </div>
+                        <div className="logout--body">
+                            <button onClick={logoutClose} type="button">No</button>
+                            <button onClick={logoutClose} type="button">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className={navbarLeft}>
                 <div onClick={closeSidebar} className="sidebar-overlay"></div>
                 <div onClick={openSidebar} className="sidebar-button">
@@ -49,7 +75,7 @@ const Navbar = () => {
                             <NavLink onClick={closeSidebar} exact="true" to="/profile"><span className="material-symbols-outlined">person</span>Profile</NavLink>
                         </li>
                         <li>
-                            <div onClick={openLogout} className='sidebar-logout'><span className="material-symbols-outlined">logout</span>Logout</div>
+                            <div onClick={LogoutOpen} className='sidebar-logout'><span className="material-symbols-outlined">logout</span>Logout</div>
                         </li>
                     </ul>
                 </nav>
