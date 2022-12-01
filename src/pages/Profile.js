@@ -27,7 +27,9 @@ const Profile = () => {
                 </div>
                 <div className={profilePasswordContainer}>
                     <div onClick={closeChangePassword} className="profile-backdrop"></div>
-                    <div className="profile-modal"></div>
+                    <div className="profile-modal">
+                        
+                    </div>
                     <button onClick={openChangePassword} type='button' className='profile-password'>Change Password</button>
                 </div>
             </div>

@@ -77,10 +77,10 @@ const Dashboard = () => {
     return (
         <div className="dashboard">
             <div className="graph-buttons">
-                <button onClick={() => changeGraph("date-graph")} className="graph-button">Date</button>
-                <button onClick={() => changeGraph("priority-graph")} className="graph-button">Priority</button>
-                <button onClick={() => changeGraph("type-graph")} className="graph-button">Type</button>
-                <button onClick={() => changeGraph("history-graph")} className="graph-button">History</button>
+                <button autofocus='true' type='button' onClick={() => changeGraph("date-graph")} className="graph-button">Date</button>
+                <button type='button' onClick={() => changeGraph("priority-graph")} className="graph-button">Priority</button>
+                <button type='button' onClick={() => changeGraph("type-graph")} className="graph-button">Type</button>
+                <button type='button' onClick={() => changeGraph("history-graph")} className="graph-button">History</button>
             </div>
             <div className="graphs-container">
                 {

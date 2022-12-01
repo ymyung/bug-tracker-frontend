@@ -26,7 +26,7 @@
         }
 
         .tickets-number-container {
-            width: 10vw;
+            width: 20vw;
             display: flex;
             justify-content: center;
             text-align: center;
@@ -91,6 +91,8 @@
                     .new-ticket-save {
                         width: 6rem;
                         height: 2rem;
+                        background-color:rgb(47, 165, 47);
+                        cursor: pointer;
                     }
                 }
             }

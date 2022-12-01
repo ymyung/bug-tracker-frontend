@@ -58,6 +58,10 @@
                 font-weight: bold;
                 cursor: pointer;
             }
+
+            .add-dev:active {
+                background-color: rgb(35, 119, 35);
+            }
         }
 
         .add-dev-open .add-dev-backdrop {

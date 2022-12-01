@@ -47,9 +47,9 @@ const ProjectDescription = () => {
                         <textarea className='edit-project-inputs' placeholder='Edit Description' name="edit-description" id="edit-description" cols="30" rows="6"></textarea>
                     </div>
                     <div className='project-modal-bottom'>
-                        <button className='modal-bottom-buttons' type='button'>Add Ticket</button>
-                        <button className='modal-bottom-buttons' type='button'>Add Developers</button>
-                        <button className='modal-bottom-buttons' type='button'>Save Changes</button>
+                        {/* <button className='modal-bottom-buttons' type='button'>Add Ticket</button> */}
+                        {/* <button className='modal-bottom-buttons' type='button'>Add Developers</button> */}
+                        <button onClick={closeEdit} className='modal-bottom-buttons' type='button'>Save Changes</button>
                     </div>
                 </div>
                 <button onClick={openEdit} className='edit-project-button'>Edit Project</button>

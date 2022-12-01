@@ -96,13 +96,15 @@
 
             .project-modal-bottom {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-end;
 
                 .modal-bottom-buttons {
                     height: 2.5rem;
                     width: 7.5rem;
                     font-weight: bold;
                     font-size: .9rem;
+                    cursor: pointer;
+                    background-color:rgb(47, 165, 47);
                 }
             }
 

@@ -59,13 +59,13 @@ const ProjectTickets = () => {
                                 <p>Due Date: </p>
                                 <input type="date" />
                             </div>
-                            <button className='new-ticket-save' type='button'>Save Changes</button>
+                            <button onClick={closeNewTicket} className='new-ticket-save' type='button'>Save Changes</button>
                         </div>
                     </div>
                     <button onClick={openNewTicket} className="new-ticket">Add Ticket</button>
                 </div>
                 <div className="tickets-number-container">
-                    <div className="tickets-number">20 Tickets</div>
+                    <div className="tickets-number">Tickets: 20</div>
                 </div>
                 <div className="tickets-title-right">
                     <input className='tickets-search' type="text" placeholder="Search.." />

@@ -6,9 +6,9 @@ import './ProjectDevs.scss'
 const ProjectDevs = () => {
     const [addTicketContainer, setAddTicketContainer] = useState("add-dev-container")
 
-    const addDev = () => {
-        setAddTicketContainer('add-dev-container add-dev-open')
-    }
+    // const addDev = () => {
+    //     setAddTicketContainer('add-dev-container add-dev-open')
+    // }
 
     const closeDev = () => {
         setAddTicketContainer('add-dev-container')
@@ -20,10 +20,10 @@ const ProjectDevs = () => {
                 <div className={addTicketContainer}>
                     <div onClick={closeDev} className="add-dev-backdrop"></div>
                     <div className="add-dev-modal"></div>
-                    <button onClick={addDev} className="add-dev">Add Developer</button>
+                    {/* <button onClick={addDev} className="add-dev">Add Developer</button> */}
                 </div>
                 <div className="devs-number-middle">
-                    <div className="devs-number">10 Developers</div>
+                    <div className="devs-number">Developers: 10</div>
                 </div>
                 <div className="devs-number-right">
                     <input className='devs-search' type="text" placeholder="Search.." />
