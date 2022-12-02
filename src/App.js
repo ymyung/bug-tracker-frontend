@@ -7,10 +7,13 @@ import {
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard"
 import Projects from "./pages/Projects"
-import Users from "./pages/Users"
+import UsersManage from "./pages/UsersManage"
+import UsersAll from "./pages/UsersAll";
 import Messages from "./pages/Messages"
 import MyTicket from "./pages/MyTickets"
 import Ticket from "./pages/Ticket"
+import TicketEdit from "./pages/TicketEdit";
+import TicketHistory from "./pages/TicketHistory";
 import Profile from "./pages/Profile"
 import Login from "./pages/Login"
 import Error from "./pages/Error";
@@ -24,10 +27,13 @@ function App() {
                 <Routes>
                     <Route path="/" exact="true" element={<Dashboard />} />
                     <Route path="/projects" exact="true" element={<Projects />} />
-                    <Route path="/users" exact="true" element={<Users />} />
+                    <Route path="/users-manage" exact="true" element={<UsersManage />} />
+                    <Route path="/users-all" exact="true" element={<UsersAll />} />
                     <Route path="/messages" exact="true" element={<Messages />} />
                     <Route path="/my-tickets" exact="true" element={<MyTicket />} />
                     <Route path="/ticket" exact="true" element={<Ticket />} />
+                    <Route path="/ticket-edit" exact="true" element={<TicketEdit />} />
+                    <Route path="/ticket-history" exact="true" element={<TicketHistory />} />
                     <Route path="/profile" exact="true" element={<Profile />} />
                     <Route path="/login" exact="true" element={<Login />} />
                     <Route path="*" element={<Error />} />

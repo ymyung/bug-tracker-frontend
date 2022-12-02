@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 import './Ticket.scss'
 
@@ -7,8 +8,8 @@ const Ticket = () => {
     <div className='ticket'>
         <div className="ticket-container">
             <div className='ticket-buttons-container'>
-                <button className='ticket-button'>Edit Ticket</button>
-                <button className='ticket-button'>Ticket History</button>
+                <NavLink exact="true" to="/ticket-edit" className='ticket-button'>Edit Ticket</NavLink>
+                <NavLink exact="true" to="/ticket-history" className='ticket-button'>Ticket History</NavLink>
             </div>
             <div className="ticket-body-container">
                 <div className="ticket-body">

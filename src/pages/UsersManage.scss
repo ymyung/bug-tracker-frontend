@@ -1,0 +1,82 @@
+.usersManage {
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+
+    .usersManage-top {
+        height: 10vh;
+        background-color: rgb(26, 26, 26);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+
+        .usersManage-button {
+            height: 2rem;
+            width: 7rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 10%;
+            cursor: pointer;
+            background-color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black; 
+            border: 1px solid black;
+        }
+
+        .usersManage-button:active {
+            background-color: wheat;
+        }
+
+        .usersManage-button-top {
+            background-color: wheat;
+        }
+    }
+
+    .usersManage-body {
+        height: 80vh;
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+
+        .usersManage-body-form {
+            background-color: rgb(51, 51, 51);
+            width: 15rem;
+            height: 18rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            font-size: 2rem;
+            border-radius: 10%;
+
+            .usersManage-body-input {
+                width: 100%;
+                height: 2rem;
+            }
+
+            .usersManage-body-users, .usersManage-body-role {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .usersManage-body-submit {
+                height: 2.5rem;
+                width: 9rem;
+                margin-top: 1rem;
+                margin: auto;
+                border-radius: 10%;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            .usersManage-body-submit:active {
+                background-color: wheat;
+            }
+        }
+    }
+}

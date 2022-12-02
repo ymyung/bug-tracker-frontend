@@ -14,6 +14,12 @@ const Dashboard = () => {
     const [graphType, setGraphType] = useState("date-graph")
     const [allGraphs, setAllGraphs] = useState([])
 
+    // Graph Button Classes
+    const [dateButton, setDateButton] = useState('graph-button-date-on')
+    const [priorityButton, setPriorityButton] = useState('graph-button-priority')
+    const [typeButton, setTypeButton] = useState('graph-button-type')
+    const [historyButton, setHistoryButton] = useState('graph-button-history')
+
     // userData: Dummy data for graphs
     const [userData, setUserData] = useState({
         labels: DummyData.map(item => item.date),
@@ -46,6 +52,34 @@ const Dashboard = () => {
         setAllGraphs(["date-graph", "priority-graph", "type-graph", "history-graph"])
     }, [])
 
+    const colorDateButton = () => {
+        setDateButton('graph-button-date-on')
+        setPriorityButton('graph-button-priority')
+        setTypeButton('graph-button-type')
+        setHistoryButton('graph-button-history')
+    }
+    
+    const colorPriorityButton = () => {
+        setDateButton('graph-button-date')
+        setPriorityButton('graph-button-priority-on')
+        setTypeButton('graph-button-type')
+        setHistoryButton('graph-button-history')
+    }   
+
+    const colorTypeButton = () => {
+        setDateButton('graph-button-date')
+        setPriorityButton('graph-button-priority')
+        setTypeButton('graph-button-type-on')
+        setHistoryButton('graph-button-history')
+    }
+
+    const colorHistoryButton = () => {
+        setDateButton('graph-button-date')
+        setPriorityButton('graph-button-priority')
+        setTypeButton('graph-button-type')
+        setHistoryButton('graph-button-history-on')
+    }
+
     // Type of Graphs to Render
     const renderGraphs = (graph) => {
         if (graph === "date-graph") {
@@ -76,11 +110,11 @@ const Dashboard = () => {
     // Render the page
     return (
         <div className="dashboard">
-            <div className="graph-buttons">
-                <button autofocus='true' type='button' onClick={() => changeGraph("date-graph")} className="graph-button">Date</button>
-                <button type='button' onClick={() => changeGraph("priority-graph")} className="graph-button">Priority</button>
-                <button type='button' onClick={() => changeGraph("type-graph")} className="graph-button">Type</button>
-                <button type='button' onClick={() => changeGraph("history-graph")} className="graph-button">History</button>
+            <div className="graph-buttons-container">
+                <button type='button' onClick={() => {changeGraph("date-graph"); colorDateButton()}} className={dateButton}>Date</button>
+                <button type='button' onClick={() => {changeGraph("priority-graph"); colorPriorityButton()}} className={priorityButton}>Priority</button>
+                <button type='button' onClick={() => {changeGraph("type-graph"); colorTypeButton()}} className={typeButton}>Type</button>
+                <button type='button' onClick={() => {changeGraph("history-graph"); colorHistoryButton()}} className={historyButton}>History</button>
             </div>
             <div className="graphs-container">
                 {

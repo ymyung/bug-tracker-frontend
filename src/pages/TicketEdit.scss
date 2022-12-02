@@ -1,13 +1,13 @@
-.ticket {
+.TicketEdit {
     height: 90vh;
     width: 100vw;
 
-    .ticket-container {
+    .TicketEdit-container {
         display: flex;
         flex-direction: column;
 
 
-        .ticket-buttons-container {
+        .TicketEdit-buttons-container {
             height: 10vh;
             background-color: rgb(26, 26, 26);
             display: flex;
@@ -15,7 +15,7 @@
             align-items: center;
             gap: 3rem;
 
-            .ticket-button {
+            .TicketEdit-button {
                 height: 2rem;
                 width: 7rem;
                 font-weight: bold;
@@ -31,16 +31,16 @@
                 border: 1px solid black;
             }
 
-            .ticket-button:active {
+            .TicketEdit-button:active {
                 background-color: rgb(35, 119, 35);
             }
         }
 
-        .ticket-body-container {
+        .TicketEdit-body-container {
             height: 80vh;
             width: 100vw;
             
-            .ticket-body {
+            .TicketEdit-body {
                 width: 90vw;
                 height: 70vh;
                 margin: auto;
@@ -55,7 +55,7 @@
                     align-items: center;
                 }
 
-                .ticket-body-description {
+                .TicketEdit-body-description {
                     display: flex;
                     flex-direction: column;
                     gap: .5rem;
@@ -64,23 +64,13 @@
                     justify-content: center;
                 }
 
-                .ticket-body-subcontainer {
+                .TicketEdit-body-subcontainer {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                }
-            }
-        }
-    }
 
-    @media screen and (min-width: 768px) {
-        .ticket-container {
-            .ticket-body-container {
-                .ticket-body {
-                    .ticket-body-description {
-                        p {
-                            width: 20vw;
-                        }
+                    .TicketEdit-body-subcontainer-bottom {
+                        width: 7rem;
                     }
                 }
             }
