@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard"
 import Projects from "./pages/Projects"
 import UsersManage from "./pages/UsersManage"
 import UsersAll from "./pages/UsersAll";
-import Messages from "./pages/Messages"
 import MyTicket from "./pages/MyTickets"
 import Ticket from "./pages/Ticket"
 import TicketEdit from "./pages/TicketEdit";
@@ -29,7 +28,6 @@ function App() {
                     <Route path="/projects" exact="true" element={<Projects />} />
                     <Route path="/users-manage" exact="true" element={<UsersManage />} />
                     <Route path="/users-all" exact="true" element={<UsersAll />} />
-                    <Route path="/messages" exact="true" element={<Messages />} />
                     <Route path="/my-tickets" exact="true" element={<MyTicket />} />
                     <Route path="/ticket" exact="true" element={<Ticket />} />
                     <Route path="/ticket-edit" exact="true" element={<TicketEdit />} />

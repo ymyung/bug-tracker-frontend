@@ -10,6 +10,11 @@ const Projects = () => {
     const [bodyRender, setBodyRender] = useState("description")
     const [buttonsTop, setButtonsTop] = useState('buttons-top')
 
+    // button color states
+    const [buttonLeft, setButtonLeft] = useState('bottom-buttons-wheat')
+    const [buttonMiddle, setButtonMiddle] = useState('bottom-buttons')
+    const [buttonRight, setButtonRight] = useState('bottom-buttons')
+
     // Change what is shown on page: details, devs, tickets
     const changeRender = (type) => {
         setBodyRender(type)
@@ -23,6 +28,25 @@ const Projects = () => {
     // Reset buttonsTop value 
     const closeNewProject = () => {
         setButtonsTop('buttons-top')
+    }
+
+    // Button wheat color change
+    const wheatLeft = () => {
+        setButtonLeft('bottom-buttons-wheat')
+        setButtonMiddle('bottom-buttons')
+        setButtonRight('bottom-buttons')
+    }
+
+    const wheatMiddle = () => {
+        setButtonLeft('bottom-buttons')
+        setButtonMiddle('bottom-buttons-wheat')
+        setButtonRight('bottom-buttons')
+    }
+
+    const wheatRight = () => {
+        setButtonLeft('bottom-buttons')
+        setButtonMiddle('bottom-buttons')
+        setButtonRight('bottom-buttons-wheat')
     }
 
     return (
@@ -53,9 +77,9 @@ const Projects = () => {
                     </select>
                 </div>
                 <div className='buttons-bottom'>
-                    <button onClick={() => changeRender("description")} type='button' className="bottom-buttons">Details</button>
-                    <button onClick={() => changeRender("devs")} type='button' className="bottom-buttons">Devs</button>
-                    <button onClick={() => changeRender("tickets")} type='button' className="bottom-buttons">Tickets</button>
+                    <button onClick={() => {changeRender("description"); wheatLeft()}} type='button' className={buttonLeft}>Details</button>
+                    <button onClick={() => {changeRender("devs"); wheatMiddle()}} type='button' className={buttonMiddle}>Devs</button>
+                    <button onClick={() => {changeRender("tickets"); wheatRight()}} type='button' className={buttonRight}>Tickets</button>
                 </div>
             </div>
             <div className="project-body">

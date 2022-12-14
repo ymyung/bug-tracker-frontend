@@ -110,12 +110,16 @@
             display: flex;
             justify-content: space-between;
 
-            .bottom-buttons {
+            .bottom-buttons, .bottom-buttons-wheat {
                 height: 1.8rem;
                 width: 30vw;
                 font-weight: bold;
                 font-size: .9rem;
                 cursor: pointer;
+            }
+
+            .bottom-buttons-wheat {
+                background-color: wheat;
             }
         }
     }
@@ -155,7 +159,7 @@
                 align-items: center;
                 gap: 1rem;
 
-                .bottom-buttons {
+                .bottom-buttons, .bottom-buttons-wheat {
                     width: 6rem;
                 }
             }
