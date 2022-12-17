@@ -84,10 +84,6 @@ const Navbar = () => {
                 </NavLink>
             </div>
             <div className="navbar-right">
-                <NavLink className="chat-container" onClick={closeSidebar} exact="true" to="/messages">
-                    <span className="material-symbols-outlined chat">chat</span>
-                    <span className="chat--notification">1</span>
-                </NavLink>
                 <NavLink className="navbar-image-container" onClick={closeSidebar} exact="true" to="/profile">
                     <img className="navbar-image" src="https://i.pinimg.com/600x315/4e/24/3c/4e243cc596ec994e7a8c9711b1034a11.jpg" alt="" />
                 </NavLink>
