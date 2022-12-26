@@ -49,6 +49,11 @@ const Projects = () => {
         setButtonRight('bottom-buttons-wheat')
     }
 
+    // Change shown project when clicked
+    const projectSubmit = () => {
+        return
+    }
+
     return (
         <div className='project'>
             <div className="project-top">
@@ -71,7 +76,7 @@ const Projects = () => {
                         </div>
                     </div>
                     <button onClick={newProject} type='button' className="project-top-buttons create-new">New Project</button>
-                    <select className='project-top-buttons' name="Projects" id="projects">
+                    <select onChange={projectSubmit} className='project-top-buttons' name="Projects" id="projects">
                         <option value="1" defaultValue> Project 1</option>
                         <option value="2">Project 2</option>
                     </select>

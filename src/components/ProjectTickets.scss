@@ -143,6 +143,8 @@
                 display: flex;
                 flex-direction: row;
                 width: 100%;
+                margin-left: .5rem;
+                margin-right: .5rem;
 
                 .tickets-name {
                     flex: 1;
@@ -157,6 +159,8 @@
 
             .tickets-container-bottom {
                 display: flex;
+                margin-left: .5rem;
+                margin-right: .5rem;
 
                 .tickets-email {
                     flex: 1;
