@@ -15,6 +15,7 @@ import TicketEdit from "./pages/TicketEdit";
 import TicketHistory from "./pages/TicketHistory";
 import Profile from "./pages/Profile"
 import Login from "./pages/Login"
+import Signup from "./pages/Signup";
 import Error from "./pages/Error";
 import './App.css';
 
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/ticket-history" exact="true" element={<TicketHistory />} />
                     <Route path="/profile" exact="true" element={<Profile />} />
                     <Route path="/login" exact="true" element={<Login />} />
+                    <Route path="/signup" exact="true" element={<Signup />} />
                     <Route path="*" element={<Error />} />
                 </Routes>
             </div>
