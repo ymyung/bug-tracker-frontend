@@ -18,16 +18,16 @@ const UsersManage = () => {
                 <form className="usersManage-body-form">
                     <div className="usersManage-body-users">
                         <p>Users</p>
-                        <select className='usersManage-body-input' name="usersManage-body-users" id="usersManage-body-users">
-                            <option value="" selected disabled>Select User</option>
+                        <select className='usersManage-body-input' defaultValue="" name="usersManage-body-users" id="usersManage-body-users">
+                            <option value="" disabled>Select User</option>
                             <option value="user 1">user 1</option>
                             <option value="user 2">user 2</option>
                         </select>
                     </div>
                     <div className="usersManage-body-role">
                         <p>Role</p>
-                        <select className='usersManage-body-input' name="usersManage-body-role" id="usersManage-body-role">
-                            <option value="" selected disabled>Select Role</option>
+                        <select className='usersManage-body-input' defaultValue="" name="usersManage-body-role" id="usersManage-body-role">
+                            <option value="" disabled>Select Role</option>
                             <option value="pole 1">role 1</option>
                             <option value="pole 2">role 2</option>
                         </select>

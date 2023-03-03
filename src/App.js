@@ -3,6 +3,7 @@ import {
     Routes,
     Route
 } from "react-router-dom";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard"
@@ -20,6 +21,8 @@ import Error from "./pages/Error";
 import './App.css';
 
 function App() {
+    const { user } = useAuthContext()
+
     return (
         <Router>
             <Navbar />

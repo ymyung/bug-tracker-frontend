@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from "react-router-dom"
+import { useLogout } from '../hooks/useLogout'
 
 import "./Navbar.scss"
 
@@ -7,6 +8,7 @@ const Navbar = () => {
     const [navbarLeft, setNavbarLeft] = useState("navbar-left")
     const [logoutContainer, setLogoutContainer] = useState('logout--container')
     const [navbar, setNavbar] =useState('navbar')
+    const { logout } = useLogout()
 
     const openSidebar = () => {
         setNavbarLeft("navbar-left sidebar--open")
@@ -28,6 +30,14 @@ const Navbar = () => {
     const logoutClose = () => {
         setLogoutContainer('logout--container')
         setNavbar('navbar')
+        logout()
+    }
+
+    const logoutCloseAll = () => {
+        setLogoutContainer('logout--container')
+        setNavbar('navbar')
+        setNavbarLeft("navbar-left")
+        logout()
     }
 
     return (
@@ -43,7 +53,7 @@ const Navbar = () => {
                         </div>
                         <div className="logout--body">
                             <button onClick={logoutClose} type="button">No</button>
-                            <button onClick={logoutClose} type="button">Yes</button>
+                            <button onClick={logoutCloseAll} type="button">Yes</button>
                         </div>
                     </div>
                 </div>

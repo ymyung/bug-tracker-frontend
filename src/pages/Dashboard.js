@@ -118,11 +118,11 @@ const Dashboard = () => {
             </div>
             <div className="graphs-container">
                 {
-                    allGraphs.map((graph) => {
+                    allGraphs.map((graph, i) => {
                         if (graphType === graph) {
-                            return renderGraphs(graph)
+                            return <div key={i}>{renderGraphs(graph)}</div>
                         } else {
-                            return <div></div>
+                            return <div key={i}></div>
                         }
                     })
                 }
