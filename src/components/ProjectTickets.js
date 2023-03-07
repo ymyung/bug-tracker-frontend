@@ -30,8 +30,8 @@ const ProjectTickets = () => {
                         </div>
                         <div className="new-ticket-priority">
                             <p>Priority: </p>
-                            <select name="new-ticket-priority" id="new-ticket-priority">
-                                <option value="" defaultValue selected disabled>Select One</option>
+                            <select name="new-ticket-priority" defaultValue='' id="new-ticket-priority">
+                                <option value="" defaultValue disabled>Select One</option>
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
                                 <option value="High">High</option>
@@ -40,8 +40,8 @@ const ProjectTickets = () => {
                         </div>
                         <div className="new-ticket-type">
                             <p>Type: </p>
-                            <select name="new-ticket-type" id="new-ticket-type">
-                                <option value="" defaultValue selected disabled>Select One</option>
+                            <select name="new-ticket-type" defaultValue='' id="new-ticket-type">
+                                <option value="" defaultValue disabled>Select One</option>
                                 <option value="Bug">Bug</option>
                                 <option value="UI">UI</option>
                                 <option value="Performance">Performance</option>
@@ -49,8 +49,8 @@ const ProjectTickets = () => {
                         </div>
                         <div className="new-ticket-dev">
                             <p>Assigned Developer: </p>
-                            <select name="new-ticket-dev" id="new-ticket-dev">
-                                <option value="" defaultValue selected disabled>Select One</option>
+                            <select name="new-ticket-dev" defaultValue='' id="new-ticket-dev">
+                                <option value="" defaultValue disabled>Select One</option>
                                 <option value="Dev 1">Dev 1</option>
                             </select>
                         </div>

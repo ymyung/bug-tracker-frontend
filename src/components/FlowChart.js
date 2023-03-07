@@ -2,24 +2,24 @@ import React from 'react'
 
 import "./FlowChart.scss"
 
-const FlowChart = () => {
-  return (
-    <div className='flow-chart'>
-        <div className="flow-chart--title">title</div>
-        <div className="flow-chart--body">
-            <div className="flow-chart--body-left">
-                <div className="box-left box-left-top">box left</div>
-                <div className="box-left box-left-middle">box left</div>
-                <div className="box-left box-left-bottom">box left</div>
-            </div>
-            <div className="flow-chart--body-right">
-                <div className="box-right">box right</div>
-                <div className="box-right">box right</div>
-                <div className="box-right">box right</div>
+const FlowChart = ({chartData}) => {
+    return (
+        <div className='flow-chart'>
+            <div className="flow-chart--title">Ticket Type</div>
+            <div className="flow-chart--body">
+                <div className="flow-chart--body-left">
+                    <div className="box-left box-left-top">UI</div>
+                    <div className="box-left box-left-middle">Performance</div>
+                    <div className="box-left box-left-bottom">Bug</div>
+                </div>
+                <div className="flow-chart--body-right">
+                    <div className="box-right">Tickets: {chartData[0].count}</div>
+                    <div className="box-right">Tickets: {chartData[1].count}</div>
+                    <div className="box-right">Tickets: {chartData[2].count}</div>
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default FlowChart

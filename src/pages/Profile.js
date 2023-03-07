@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useChangePassword } from '../hooks/useChangePassword.js'
 
 import "./Profile.scss"
 
 const Profile = () => {
     const [profilePasswordContainer, setProfilePasswordContainer] = useState('profile-password-container')
+    const [passwordChange, setPasswordChange] = useState('')
+    const [userData, setUserData] = useState({})
+    const { dispatch, user } = useAuthContext()
+    const { changePassword, isLoading, error } = useChangePassword()
 
     const openChangePassword = () => {
         setProfilePasswordContainer('profile-password-container change-password')
@@ -13,24 +19,57 @@ const Profile = () => {
         setProfilePasswordContainer('profile-password-container')
     }
 
+    const changePasswordCheck = (e) => {
+        e.preventDefault()
+
+        changePassword(passwordChange, userData)
+    }
+
+    // get user
+    const userEmail = user.email
+
+    useEffect(() => {
+        const fetchTickets = async () => {
+            try {
+                const response = await fetch(`http://localhost:4000/user/email/${userEmail}`, {
+                    headers: {'Authorization': `Bearer ${user.token}`}
+                });
+                const data = await response.json();
+
+                setUserData(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (user) {
+            fetchTickets();
+        }
+    }, [dispatch, user]);
+
+    // render profile
     return (
         <div className='profile'>
             <div className="profile-container">
                 <div className="profile-picture">
-                    <img className="profile-image" src="https://i.pinimg.com/600x315/4e/24/3c/4e243cc596ec994e7a8c9711b1034a11.jpg" alt="" />
+                    {userData.image ? userData.image : <div className="profile-image">User</div>}
                 </div>
                 <div className="profile-username">
-                    <p>Dummy Name</p>
+                    <p>{userData.username}</p>
                 </div>
                 <div className="profile-email-container">
-                    <p className='profile-email'>123456789@gmail.com</p>
+                    <p className='profile-email'>{userData.email}</p>
                 </div>
                 <div className={profilePasswordContainer}>
                     <div onClick={closeChangePassword} className="profile-backdrop"></div>
-                    <div className="profile-modal">
-                        
-                    </div>
                     <button onClick={openChangePassword} type='button' className='profile-password'>Change Password</button>
+
+                    {/* change password modal */}
+                    <form className="profile-modal" onSubmit={(e) => changePasswordCheck(e)}>
+                        <input type="password" onChange={(e) => setPasswordChange(e.target.value)} />
+                        <button disabled={isLoading}>Change Password</button>
+                        {error && <div>Invalid Password</div>}
+                    </form>
                 </div>
             </div>
         </div>

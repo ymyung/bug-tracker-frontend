@@ -12,7 +12,7 @@ export const useSignup = () => {
 
         console.log(username, email, password, role, image)
 
-        const response = await fetch('/user/signup', {
+        const response = await fetch('http://localhost:4000/user/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username, email, password, role, image})

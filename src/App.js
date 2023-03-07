@@ -1,7 +1,8 @@
 import {
     BrowserRouter as Router,
     Routes,
-    Route
+    Route,
+    Navigate
 } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
@@ -25,20 +26,20 @@ function App() {
 
     return (
         <Router>
-            <Navbar />
+            {user && <Navbar />}
             <div className="body">
                 <Routes>
-                    <Route path="/" exact="true" element={<Dashboard />} />
-                    <Route path="/projects" exact="true" element={<Projects />} />
-                    <Route path="/users-manage" exact="true" element={<UsersManage />} />
-                    <Route path="/users-all" exact="true" element={<UsersAll />} />
-                    <Route path="/my-tickets" exact="true" element={<MyTicket />} />
-                    <Route path="/ticket" exact="true" element={<Ticket />} />
-                    <Route path="/ticket-edit" exact="true" element={<TicketEdit />} />
-                    <Route path="/ticket-history" exact="true" element={<TicketHistory />} />
-                    <Route path="/profile" exact="true" element={<Profile />} />
-                    <Route path="/login" exact="true" element={<Login />} />
-                    <Route path="/signup" exact="true" element={<Signup />} />
+                    <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+                    <Route path="/projects" element={user ? <Projects /> : <Navigate to="/login" />} />
+                    <Route path="/users-manage" element={user ? <UsersManage /> : <Navigate to="/login" />} />
+                    <Route path="/users-all" element={user ? <UsersAll /> : <Navigate to="/login" />} />
+                    <Route path="/my-tickets" element={user ? <MyTicket /> : <Navigate to="/login" />} />
+                    <Route path="/ticket" element={user ? <Ticket /> : <Navigate to="/login" />} />
+                    <Route path="/ticket-edit" element={user ? <TicketEdit /> : <Navigate to="/login" />} />
+                    <Route path="/ticket-history" element={user ? <TicketHistory /> : <Navigate to="/login" />} />
+                    <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+                    <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+                    <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} /> 
                     <Route path="*" element={<Error />} />
                 </Routes>
             </div>
