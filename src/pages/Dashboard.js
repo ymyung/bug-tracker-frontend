@@ -133,8 +133,6 @@ const Dashboard = () => {
                 }
             ]})
     }, [barData0, barData1, barData2, barData3, barData4])
-
-    // barData[0].count, barData[1].count, barData[2].count, barData[3].count, barData[4].count
         
     // Change which graph to render on click
     const changeGraph = (type) => {

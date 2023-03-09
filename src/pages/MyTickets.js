@@ -1,17 +1,85 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useAuthContext } from '../hooks/useAuthContext'
+import Pagination from '../components/Pagination'
+import Ticket from '../pages/Ticket'
 
 import "./MyTickets.scss"
 
 const MyTickets = () => {
     const [newTicketContainer, setNewTicketContainer] = useState('new-myticket-container')
+    const [allTickets, setAllTickets] = useState({})
+    const [userUsername, setUserUsername] = useState('')
+    const { user, dispatch } = useAuthContext()
 
-    const openNewTicket = () => {
-        setNewTicketContainer('new-myticket-container new-myticket-open')
-    }
+    const [loading, setLoading] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(8)
+
+    useEffect(() => {
+        const fetchTickets = async () => {
+            try {
+                setLoading(true)
+                const userInfo = await fetch(`http://localhost:4000/user/email/${user.email}`, {
+                    headers: {'Authorization': `Bearer ${user.token}`}
+                })
+
+                const data = await userInfo.json();
+
+                const openTickets = data.tickets.filter(ticket => ticket.status === 'open')
+
+                setAllTickets(openTickets)
+                setUserUsername(data.username)
+                setPostsPerPage(8)
+                setLoading(false)
+            } catch (error) {
+                console.log(error);
+                setLoading(false)
+            }
+        };
+
+        if (user) {
+            fetchTickets();
+        }
+    }, [user, dispatch]) 
+
+    const dataDueDate = Array.isArray(allTickets) && allTickets.map(ticket => (
+        ticket.dueDate.substring(0, 7)
+    ))
 
     const closeNewTicket = () => {
         setNewTicketContainer('new-myticket-container')
+    }
+
+    // get current posts
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = Array.isArray(allTickets) && allTickets.slice(indexOfFirstPost, indexOfLastPost)
+    
+    // change page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
+    const paginatePrev = () => {
+        setCurrentPage(currentPage => currentPage -1)
+    }
+
+    const paginateNext = () => { 
+        setCurrentPage(currentPage => currentPage + 1)
+    }
+
+    // render clicked ticket
+    const [oneTicket, setOneTicket] = useState('ticket')
+    const [currentTicket, setCurrentTicket] = useState({})
+
+    const renderTicket =(ticket, res) => {
+        if (res === 'oneTicket') {
+            setOneTicket(prev => 'ticket-on')
+            setCurrentTicket(ticket)
+        } else if (res === 'allTickets') {
+            setOneTicket(prev => 'ticket')
+        }
     }
 
     return (
@@ -20,242 +88,43 @@ const MyTickets = () => {
                 <div className='myticket-title-container'>
                     <div className={newTicketContainer}>
                         <div onClick={closeNewTicket} className="new-myticket-backdrop"></div>
-                        <div className="new-myticket-modal">
-                            <div className="new-myticket-title">
-                                <p>Title: </p>
-                                <input className='new-myticket-input' placeholder='Title' type="text" />
-                            </div>
-                            <div className="new-myticket-description">
-                                <p>Description: </p>
-                                <textarea className='new-myticket-input' placeholder='Edit Description' name="edit-description" id="edit-description" cols="30" rows="4" />
-                            </div>
-                            <div className="new-myticket-priority">
-                                <p>Priority: </p>
-                                <select name="new-myticket-priority" id="new-myticket-priority" defaultValue=''>
-                                    <option value="" defaultValue disabled>Select One</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                    <option value="Critical">Critical</option>
-                                </select>
-                            </div>
-                            <div className="new-myticket-type">
-                                <p>Type: </p>
-                                <select name="new-myticket-type" id="new-myticket-type" defaultValue=''>
-                                    <option value="" defaultValue disabled>Select One</option>
-                                    <option value="Bug">Bug</option>
-                                    <option value="UI">UI</option>
-                                    <option value="Performance">Performance</option>
-                                </select>
-                            </div>
-                            <div className="new-myticket-dev">
-                                <p>Assigned Developer: </p>
-                                <select name="new-myticket-dev" id="new-myticket-dev" defaultValue=''>
-                                    <option value="" defaultValue disabled>Select One</option>
-                                    <option value="Dev 1">Dev 1</option>
-                                </select>
-                            </div>
-                            <div className="new-myticket-date">
-                                <div>
-                                    <p>Due Date: </p>
-                                    <input type="date" />
-                                </div>
-                                <button className='new-myticket-save' type='button'>Save Changes</button>
-                            </div>
-                        </div>
-                        <button onClick={openNewTicket} className="new-myticket">Add Ticket</button>
                     </div>
                     <div className="myticket-number-container">
-                        <div className="myticket-number">My Tickets: 20</div>
+                        <div className="myticket-number">My Tickets: {allTickets.length}</div>
                     </div>
                     <div className="myticket-title-right">
                         <input className='myticket-search' type="text" placeholder="Search.." />
                     </div>
                 </div>
                 <div className="myticket-containers">
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
+                    {loading ? <div>loading...</div> : Array.isArray(allTickets) && currentPosts.map((ticket, i) => (
+                    <div key={i} className="myticket-container" onClick={() => renderTicket(ticket, 'oneTicket')}>
                         <div className="myticket-container-top">
                             <div className="myticket-name">
                                 <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
+                                <p>{ticket.title}</p>
                             </div>
                             <div className="myticket-role">
                                 <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
+                                <p>{userUsername}</p>
                             </div>
                         </div>
                         <div className="myticket-container-bottom">
                             <div className="myticket-email">
                                 <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
+                                <p>{dataDueDate[i]}</p>
                             </div>
                             <div className="myticket-priority">
                                 <p className="myticket-left">Priority:</p>
-                                <p>High</p>
+                                <p>{ticket.priority}</p>
                             </div>
                         </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
-                    <NavLink exact="true" to="/ticket" className="myticket-container">
-                        <div className="myticket-container-top">
-                            <div className="myticket-name">
-                                <p className='myticket-left'>Ticket Name:</p>
-                                <p>Ticket</p>
-                            </div>
-                            <div className="myticket-role">
-                                <p className='myticket-left'>Dev:</p>
-                                <p>Mark</p>
-                            </div>
-                        </div>
-                        <div className="myticket-container-bottom">
-                            <div className="myticket-email">
-                                <p className="myticket-left">Due Date:</p>
-                                <p>Nov 1</p>
-                            </div>
-                            <div className="myticket-priority">
-                                <p className="myticket-left">Priority:</p>
-                                <p>High</p>
-                            </div>
-                        </div>
-                    </NavLink>
+                    </div>
+                    ))}
                 </div>
-                <div className="myticket-buttons">
-                    <button type='button' className="myticket-button myticket-previous">Prev</button>
-                    <p>Page 1</p>
-                    <button type='button' className="myticket-button myticket-next">Next</button>
-                </div>
+                <Pagination postsPerPage={postsPerPage} allTickets={allTickets} paginate={paginate} paginatePrev={paginatePrev} paginateNext={paginateNext} currentPage={currentPage} />
             </div>
+            <Ticket oneTicket={oneTicket} renderTicket={renderTicket} allTickets={allTickets} currentTicket={currentTicket} userUsername={userUsername} />
         </>
     )
 }

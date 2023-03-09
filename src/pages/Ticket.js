@@ -1,63 +1,111 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
+import TicketEdit from './TicketEdit'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 import './Ticket.scss'
 
-const Ticket = () => {
-  return (
-    <div className='ticket'>
-        <div className="ticket-container">
-            <div className='ticket-buttons-container'>
-                <NavLink exact="true" to="/ticket-edit" className='ticket-button'>Edit Ticket</NavLink>
-                <NavLink exact="true" to="/ticket-history" className='ticket-button'>Ticket History</NavLink>
-            </div>
-            <div className="ticket-body-container">
-                <div className="ticket-body">
-                    <div className='ticket-body-subcontainer'>
-                        <p>Title:</p>
-                        <p>Ticket 1</p>
+const Ticket = ({ oneTicket, renderTicket, allTickets, currentTicket, userUsername }) => {
+    const [createdBy, setCreatedBy] = useState('')
+    const [dateCreated, setDateCreated] = useState('')
+    const [dueDate, setDueDate] = useState('')
+    const [dateResolved, setDateResolved] = useState('')
+    const { user } = useAuthContext()
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userInfo = await fetch(`http://localhost:4000/user/${currentTicket.createdBy}`, {
+                    headers: {'Authorization': `Bearer ${user.token}`}
+                })
+    
+                const data = await userInfo.json()
+
+                setCreatedBy(data)
+                
+                if (currentTicket && Object.keys(currentTicket).length > 0) {
+                    setDateCreated(currentTicket.dateCreated.slice(0, 7))
+                    setDueDate(currentTicket.dueDate.slice(0, 7))
+                    setDateResolved(currentTicket.dateResolved.slice(0,7))
+                }
+            } catch (error) {
+            console.log(error);
+            }
+        }
+
+        if (user && currentTicket && Object.keys(currentTicket).length > 0) {
+        fetchUser()
+        }
+    }, [currentTicket])
+
+    // open edit ticket container
+    const [ticketEdit, setTicketEdit] = useState('TicketEdit')
+
+    const openTicketEdit = () => {
+        setTicketEdit(prev => 'TicketEdit-on')
+    }
+
+    const closeTicketEdit = () => {
+        setTicketEdit(prev => 'TicketEdit')
+    }
+
+    return (
+        <div className={oneTicket}>
+            <div className="ticket-container">
+                <div className='ticket-buttons-container'>
+                    <div exact="true" to="/ticket-edit" className='ticket-button' onClick={openTicketEdit}>Edit Ticket</div>
+                </div>
+                <div className="ticket-body-container">
+                    <div className="ticket-container">
+                        <div exact='true' to='/my-tickets' className='ticket-button' onClick={() => renderTicket(allTickets, 'allTickets')}>Go Back</div>
                     </div>
-                    <div className='ticket-body-description'>
-                        <p>Description:</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam nisi, magni distinctio possimus porro repudiandae labore? Natus aspernatur at veniam?</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Assigned Developer:</p>
-                        <p>Shrek</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Created By:</p>
-                        <p>Jerry</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Date Created:</p>
-                        <p>November 30th</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Priority:</p>
-                        <p>High</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Type:</p>
-                        <p>UI</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Due Date:</p>
-                        <p>November 31st</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Status:</p>
-                        <p>Resolved</p>
-                    </div>
-                    <div className='ticket-body-subcontainer'>
-                        <p>Date Resolved:</p>
-                        <p>November 31st</p>
+                    <div className="ticket-body">
+                        <div className='ticket-body-subcontainer'>
+                            <p>Title:</p>
+                            <p>{currentTicket && currentTicket.title}</p>
+                        </div>
+                        <div className='ticket-body-description'>
+                            <p>Description:</p>
+                            <p>{currentTicket && currentTicket.description}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Assigned Developer:</p>
+                            <p>{userUsername}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Created By:</p>
+                            <p>{currentTicket && createdBy.username}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Date Created:</p>
+                            <p>{dateCreated}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Priority:</p>
+                            <p>{currentTicket && currentTicket.priority}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Type:</p>
+                            <p>{currentTicket && currentTicket.type}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Due Date:</p>
+                            <p>{dueDate}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Status:</p>
+                            <p>{currentTicket && currentTicket.status}</p>
+                        </div>
+                        <div className='ticket-body-subcontainer'>
+                            <p>Date Resolved:</p>
+                            <p>{dateResolved}</p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <TicketEdit ticketEdit={ticketEdit} closeTicketEdit={closeTicketEdit} currentTicket={currentTicket} />
         </div>
-    </div>
-  )
+    )
 }
 
 export default Ticket

@@ -12,7 +12,6 @@ import Projects from "./pages/Projects"
 import UsersManage from "./pages/UsersManage"
 import UsersAll from "./pages/UsersAll";
 import MyTicket from "./pages/MyTickets"
-import Ticket from "./pages/Ticket"
 import TicketEdit from "./pages/TicketEdit";
 import TicketHistory from "./pages/TicketHistory";
 import Profile from "./pages/Profile"
@@ -34,7 +33,6 @@ function App() {
                     <Route path="/users-manage" element={user ? <UsersManage /> : <Navigate to="/login" />} />
                     <Route path="/users-all" element={user ? <UsersAll /> : <Navigate to="/login" />} />
                     <Route path="/my-tickets" element={user ? <MyTicket /> : <Navigate to="/login" />} />
-                    <Route path="/ticket" element={user ? <Ticket /> : <Navigate to="/login" />} />
                     <Route path="/ticket-edit" element={user ? <TicketEdit /> : <Navigate to="/login" />} />
                     <Route path="/ticket-history" element={user ? <TicketHistory /> : <Navigate to="/login" />} />
                     <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />

@@ -123,11 +123,13 @@
     .myticket-left {
         color: gray;
         margin-right: 1rem;
+        font-size: .8rem;
     }
 
     .myticket-containers {
         flex: 8;
         padding: .5rem;
+        height: 70vh;
         
         .myticket-container {
             display: flex;
