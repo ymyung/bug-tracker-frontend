@@ -73,7 +73,7 @@ const Navbar = () => {
                             <NavLink onClick={closeSidebar} exact="true" to="/projects"><span className="material-symbols-outlined">lightbulb</span>Projects</NavLink>
                         </li>
                         <li>
-                            <NavLink onClick={closeSidebar} exact="true" to="/users-manage"><span className="material-symbols-outlined">group</span>Users</NavLink>
+                            <NavLink onClick={closeSidebar} exact="true" to="/users-all"><span className="material-symbols-outlined">group</span>Users</NavLink>
                         </li>
                         <li>
                             <NavLink onClick={closeSidebar} exact="true" to="/my-tickets"><span className="material-symbols-outlined">confirmation_number</span>My Tickets</NavLink>

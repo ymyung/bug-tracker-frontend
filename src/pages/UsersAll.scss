@@ -58,6 +58,8 @@
                 height: 10%;
                 font-size: 1rem;
                 gap: 1rem;
+                align-items: center;
+                color: wheat;
 
                 p {
                     flex: 1;
@@ -82,6 +84,10 @@
                     height: 10%;
                     gap: 1rem;
                     align-items: center;
+
+                    .top-and-bottom {
+                        font-size: 1rem;
+                    }
 
                     p {
                         flex: 1;

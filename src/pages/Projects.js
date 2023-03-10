@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import ProjectDetails from '../components/ProjectDetails'
 import ProjectDevs from '../components/ProjectDevs'
 import ProjectTickets from '../components/ProjectTickets'
+import { useAuthContext } from '../hooks/useAuthContext'
+
 import "./Projects.scss"
 
 const Projects = () => {
@@ -14,6 +15,16 @@ const Projects = () => {
     const [buttonLeft, setButtonLeft] = useState('bottom-buttons-wheat')
     const [buttonMiddle, setButtonMiddle] = useState('bottom-buttons')
     const [buttonRight, setButtonRight] = useState('bottom-buttons')
+
+    // new project data
+    const [newProjectName, setNewProjectName] = useState('')
+    const [newProjectDescription, setNewProjectDescription] = useState('')
+    const [renderProjects, setRenderProjects] = useState('')
+    const { user } = useAuthContext()
+
+    // get all projects
+    const [allProjects, setAllProjects] = useState([])
+    const [currentProject, setCurrentProject] = useState({})
 
     // Change what is shown on page: details, devs, tickets
     const changeRender = (type) => {
@@ -54,31 +65,87 @@ const Projects = () => {
         return
     }
 
+    // handle new project submit
+    const handleNewProject = (e) => {
+        e.preventDefault()
+
+        const createNewProject = async () => {
+            try {
+                const requestBody = {}
+                requestBody.title = newProjectName
+                requestBody.description = newProjectDescription
+
+                await fetch(`http://localhost:4000/project`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
+                    body: JSON.stringify(requestBody)
+                })
+            } catch (error) {
+                throw error
+            }
+        }
+
+        if (user) {
+            createNewProject()
+        }
+
+        closeNewProject()
+        setNewProjectName(prev => '')
+        setNewProjectDescription(prev => '')
+        setRenderProjects(prev => 'a')
+        setRenderProjects(prev => '')
+    }
+
+    // get all projects on render
+    useEffect(() => {
+        const getProjects = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/project', {
+                    headers: {'Authorization': `Bearer ${user.token}`}
+                })
+
+                const data = await response.json()
+
+                setAllProjects(data)
+                setCurrentProject(data[0])
+            } catch (error) {
+                throw error
+            }
+        }
+
+        if (user) {
+            getProjects()
+        }
+    }, [user, renderProjects])
+
+    console.log(allProjects)
+
     return (
         <div className='project'>
             <div className="project-top">
                 <div className={buttonsTop}>
                     <div onClick={closeNewProject} className="backdrop"></div>
-                    <div className="new-project-modal">
+                    <form className="new-project-modal" onSubmit={(e) => handleNewProject(e)}>
                         <div className="new-project-title">
                             <h3>New Project</h3>
                         </div>
                         <div className="new-project-name">
                             <p>Project Name:</p>
-                            <input className='new-project-inputs' placeholder='Project Name' type="text" />
+                            <input className='new-project-inputs' required placeholder='Project Name' type="text" value={newProjectName} onChange={(e) => setNewProjectName(e.target.value)} />
                         </div>
                         <div className="new-project-description">
                             <p>Description:</p>
-                            <textarea className='new-project-inputs' placeholder='Description' name="description" id="description" cols="30" rows="6"></textarea>
+                            <textarea className='new-project-inputs' required placeholder='Description' name="description" id="description" cols="30" rows="6" value={newProjectDescription} onChange={(e) => setNewProjectDescription(e.target.value)}></textarea>
                         </div>
                         <div className="new-project-button-container">
-                            <button onClick={closeNewProject} className="new-project-button">Create</button>
+                            <button className="new-project-button">Create</button>
                         </div>
-                    </div>
+                    </form>
                     <button onClick={newProject} type='button' className="project-top-buttons create-new">New Project</button>
                     <select onChange={projectSubmit} className='project-top-buttons' name="Projects" id="projects">
-                        <option value="1" defaultValue> Project 1</option>
-                        <option value="2">Project 2</option>
+                        {allProjects && allProjects.map((project, i) => (
+                            <option key={i} value="1" defaultValue>{project.title}</option>
+                        ))}
                     </select>
                 </div>
                 <div className='buttons-bottom'>
@@ -89,13 +156,13 @@ const Projects = () => {
             </div>
             <div className="project-body">
                 {
-                    bodyRender === 'description' && <ProjectDetails />
+                    bodyRender === 'description' && <ProjectDetails currentProject={currentProject} />
                 }
                 {
-                    bodyRender === 'devs' && <ProjectDevs />
+                    bodyRender === 'devs' && <ProjectDevs currentProject={currentProject} />
                 }
                 {
-                    bodyRender === 'tickets' && <ProjectTickets />
+                    bodyRender === 'tickets' && <ProjectTickets currentProject={currentProject} />
                 }
             </div>
         </div>

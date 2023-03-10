@@ -9,7 +9,6 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard"
 import Projects from "./pages/Projects"
-import UsersManage from "./pages/UsersManage"
 import UsersAll from "./pages/UsersAll";
 import MyTicket from "./pages/MyTickets"
 import TicketEdit from "./pages/TicketEdit";
@@ -30,7 +29,6 @@ function App() {
                 <Routes>
                     <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
                     <Route path="/projects" element={user ? <Projects /> : <Navigate to="/login" />} />
-                    <Route path="/users-manage" element={user ? <UsersManage /> : <Navigate to="/login" />} />
                     <Route path="/users-all" element={user ? <UsersAll /> : <Navigate to="/login" />} />
                     <Route path="/my-tickets" element={user ? <MyTicket /> : <Navigate to="/login" />} />
                     <Route path="/ticket-edit" element={user ? <TicketEdit /> : <Navigate to="/login" />} />

@@ -69,10 +69,10 @@ const Dashboard = () => {
                     label: "Open Tickets",
                     data: pieData.map(item => item.count),
                     backgroundColor: [
-                        'rgba(214, 26, 234, 0.8)',
-                        'rgba(105, 201, 222, 0.8)',
-                        'rgba(234, 26, 26, 0.8)',
                         'rgba(255, 124, 255, 1)',
+                        'rgba(105, 201, 222, 0.8)',
+                        'rgba(214, 26, 234, 0.8)',
+                        'rgba(234, 26, 26, 0.8)',
                         'rgba(255, 124, 74, 1)'
                     ],
                     borderColor: [
