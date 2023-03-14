@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
 import { useAuthContext } from '../hooks/useAuthContext'
 import Pagination from '../components/Pagination'
 import Ticket from '../pages/Ticket'
@@ -15,6 +14,8 @@ const MyTickets = () => {
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage, setPostsPerPage] = useState(8)
+
+    const [searchValue, setSearchValue] = useState('')
 
     useEffect(() => {
         const fetchTickets = async () => {
@@ -51,10 +52,19 @@ const MyTickets = () => {
         setNewTicketContainer('new-myticket-container')
     }
 
+    // filter devs based on search
+    const filteredData = Array.isArray(allTickets) && allTickets.filter((ticket) => {
+        if (searchValue === '') {
+            return ticket
+        } else if (ticket.title.toLowerCase().includes(searchValue.toLowerCase())) {
+            return ticket
+        }
+    })
+
     // get current posts
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
-    const currentPosts = Array.isArray(allTickets) && allTickets.slice(indexOfFirstPost, indexOfLastPost)
+    const currentPosts = Array.isArray(filteredData) && filteredData.slice(indexOfFirstPost, indexOfLastPost)
     
     // change page
     const paginate = (pageNumber) => {
@@ -90,10 +100,10 @@ const MyTickets = () => {
                         <div onClick={closeNewTicket} className="new-myticket-backdrop"></div>
                     </div>
                     <div className="myticket-number-container">
-                        <div className="myticket-number">My Tickets: {allTickets.length}</div>
+                        <div className="myticket-number">My Tickets: {filteredData.length}</div>
                     </div>
                     <div className="myticket-title-right">
-                        <input className='myticket-search' type="text" placeholder="Search.." />
+                        <input className='myticket-search' type="text" placeholder="Search.." onChange={(e) => setSearchValue(e.target.value)} value={searchValue} />
                     </div>
                 </div>
                 <div className="myticket-containers">
@@ -122,7 +132,9 @@ const MyTickets = () => {
                     </div>
                     ))}
                 </div>
-                <Pagination postsPerPage={postsPerPage} allTickets={allTickets} paginate={paginate} paginatePrev={paginatePrev} paginateNext={paginateNext} currentPage={currentPage} />
+                <div className="pagination-container">
+                    <Pagination postsPerPage={postsPerPage} currentProject={filteredData} paginate={paginate} paginatePrev={paginatePrev} paginateNext={paginateNext} currentPage={currentPage} />
+                </div>
             </div>
             <Ticket oneTicket={oneTicket} renderTicket={renderTicket} allTickets={allTickets} currentTicket={currentTicket} userUsername={userUsername} />
         </>

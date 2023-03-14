@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Pagination from '../components/Pagination'
 import { useAuthContext } from '../hooks/useAuthContext'
 
 import './UsersAll.scss'
@@ -8,6 +9,7 @@ const UsersAll = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage, setPostsPerPage] = useState(10)
     const [allUsers, setAllUsers] = useState([])
+    const [searchValue, setSearchValue] = useState('')
     const { user, dispatch } = useAuthContext()
 
     useEffect(() => {
@@ -34,25 +36,48 @@ const UsersAll = () => {
         }
     }, [user, dispatch]) 
 
+    // filter devs based on search
+    const filteredData = allUsers.filter((user) => {
+        if (searchValue === '') {
+            return user
+        } else if (user.username.toLowerCase().includes(searchValue.toLowerCase())) {
+            return user
+        }
+    })
+    
     // get current posts
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
-    const currentPosts = Array.isArray(allUsers) && allUsers.slice(indexOfFirstPost, indexOfLastPost)
+    const currentDevs = Array.isArray(filteredData) && filteredData.slice(indexOfFirstPost, indexOfLastPost)
+
+    // change page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
+    const paginatePrev = () => {
+        setCurrentPage(currentPage => currentPage -1)
+    }
+
+    const paginateNext = () => { 
+        setCurrentPage(currentPage => currentPage + 1)
+    }
 
     return (
         <div className='usersAll'>
             <div className='usersAll-top'>
                 <div className='usersAll-button usersAll-button-bottom'>All Users</div>
+                <input className='devs-search' type="text" placeholder="Search.." onChange={(e) => setSearchValue(e.target.value)} value={searchValue} />
             </div>
             <div className="usersAll-body">
                 <div className="usersAll-body-container">
                     <div className="usersAll-body-top">
-                        <p>User</p>
+                        <p>Users: {allUsers.length}</p>
                         <p className='middle'>Email</p>
                         <p>Role</p>
                     </div>
                     <div className="usersAll-body-middle">
-                        {loading ? <div>loading...</div> : Array.isArray(allUsers) && currentPosts.map((user, i) => (
+                        {loading ? <div>loading...</div> : Array.isArray(allUsers) && currentDevs.map((user, i) => (
                             <div key={i} className="usersAll-body-middle-container">
                                 <p className='top-and-bottom'>{user.username}</p>
                                 <p className='middle'>{user.email}</p>
@@ -61,9 +86,7 @@ const UsersAll = () => {
                         ))}
                     </div>
                     <div className="usersAll-body-bottom">
-                        <button className='button' type='button'>Previous</button>
-                        <button className='number'>1</button>
-                        <button className='button' type='button'>Next</button>
+                        <Pagination postsPerPage={postsPerPage} currentProject={filteredData} paginate={paginate} paginatePrev={paginatePrev} paginateNext={paginateNext} currentPage={currentPage} />
                     </div>
                 </div>
             </div>

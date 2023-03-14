@@ -139,6 +139,7 @@
             justify-content: space-around;
             text-decoration: none;
             color: white;
+            cursor: pointer;
 
             .myticket-container-top {
                 display: flex;
@@ -175,24 +176,16 @@
                 }
             }
         }
+
+        .myticket-container:hover {
+            background-color: rgb(46, 46, 46);
+        }
     }
 
-    .myticket-buttons {
-        flex: 1;
+    .pagination-container {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
         align-items: center;
-        gap: 2rem;
-
-        .myticket-button {
-            height: 2rem;
-            width: 5rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 10%;
-        }
+        justify-content: center;
     }
 
     @media screen and (min-width: 768px) {

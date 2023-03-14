@@ -19,6 +19,8 @@
             font-size: 2rem;
             display: flex;
             flex-wrap: wrap;
+            max-height: 30vh;
+            overflow-y: auto;
         }
     
         .project-right-numbers {
@@ -94,6 +96,10 @@
             justify-content: space-between;
             padding: .5rem 1rem 1rem 1rem;
 
+            .edit-project-inputs {
+                width: 100%;
+            }
+
             .project-modal-bottom {
                 display: flex;
                 justify-content: flex-end;
@@ -107,25 +113,21 @@
                     background-color:rgb(47, 165, 47);
                 }
             }
-
-            .edit-project-inputs {
-                width: 100%;
-            }
-        }
-
-        .edit-project-button {
-            justify-content: center;
-            width: 6rem;
-            height: 2rem;
-            background-color: rgb(47, 165, 47);
-            font-weight: bold;
-            font-size: .9rem;
-            cursor: pointer;
         }
 
         .edit-project-button:active {
             background-color: rgb(35, 119, 35);
         }
+    }
+
+    .edit-project-button {
+        justify-content: center;
+        width: 6rem;
+        height: 2rem;
+        background-color: rgb(47, 165, 47);
+        font-weight: bold;
+        font-size: .9rem;
+        cursor: pointer;
     }
 
     .edit-project .project-description-backdrop {

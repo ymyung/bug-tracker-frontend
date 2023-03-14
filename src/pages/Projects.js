@@ -20,6 +20,7 @@ const Projects = () => {
     const [newProjectName, setNewProjectName] = useState('')
     const [newProjectDescription, setNewProjectDescription] = useState('')
     const [renderProjects, setRenderProjects] = useState('')
+    const [updateList, setUpdateList] = useState(1)
     const { user } = useAuthContext()
 
     // get all projects
@@ -58,11 +59,6 @@ const Projects = () => {
         setButtonLeft('bottom-buttons')
         setButtonMiddle('bottom-buttons')
         setButtonRight('bottom-buttons-wheat')
-    }
-
-    // Change shown project when clicked
-    const projectSubmit = () => {
-        return
     }
 
     // handle new project submit
@@ -116,9 +112,12 @@ const Projects = () => {
         if (user) {
             getProjects()
         }
-    }, [user, renderProjects])
+    }, [user, renderProjects, updateList])
 
-    console.log(allProjects)
+    // update rendered project
+    const changeCurrentProject = (project) => {
+        setCurrentProject(prev => project)
+    }
 
     return (
         <div className='project'>
@@ -142,9 +141,9 @@ const Projects = () => {
                         </div>
                     </form>
                     <button onClick={newProject} type='button' className="project-top-buttons create-new">New Project</button>
-                    <select onChange={projectSubmit} className='project-top-buttons' name="Projects" id="projects">
+                    <select className='project-top-buttons' name="Projects" id="projects" onChange={(e) => changeCurrentProject(allProjects[e.target.value])} >
                         {allProjects && allProjects.map((project, i) => (
-                            <option key={i} value="1" defaultValue>{project.title}</option>
+                            <option key={i} value={i} defaultValue>{project.title}</option>
                         ))}
                     </select>
                 </div>
@@ -156,10 +155,10 @@ const Projects = () => {
             </div>
             <div className="project-body">
                 {
-                    bodyRender === 'description' && <ProjectDetails currentProject={currentProject} />
+                    bodyRender === 'description' && <ProjectDetails currentProject={currentProject} setCurrentProject={setCurrentProject} setUpdateList={setUpdateList} />
                 }
                 {
-                    bodyRender === 'devs' && <ProjectDevs currentProject={currentProject} />
+                    bodyRender === 'devs' && <ProjectDevs currentProject={currentProject} setUpdateList={setUpdateList} />
                 }
                 {
                     bodyRender === 'tickets' && <ProjectTickets currentProject={currentProject} />
