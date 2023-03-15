@@ -12,7 +12,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
     const { user } = useAuthContext()
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(8)
+    const [postsPerPage] = useState(8)
 
     const [searchValue, setSearchValue] = useState('')
 
@@ -23,6 +23,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
         } else if (dev.username.toLowerCase().includes(searchValue.toLowerCase())) {
             return dev
         }
+        return null
     })
 
     // get current posts
@@ -64,7 +65,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
         if (user) {
             getUsers()
         }
-    }, [])
+    }, [currentProject.devs, user])
 
     // handle adding new user 
     const handleAddUser = (e) => {
@@ -76,7 +77,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
 
                 requestBody._id = selectedUser._id
 
-                const response = await fetch(`http://localhost:4000/project/addDeveloper/${currentProject._id}`, {
+                await fetch(`http://localhost:4000/project/addDeveloper/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
@@ -105,7 +106,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
 
                 requestBody._id = selectedUser._id
 
-                const response = await fetch(`http://localhost:4000/project/removeDeveloper/${currentProject._id}`, {
+                await fetch(`http://localhost:4000/project/removeDeveloper/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)

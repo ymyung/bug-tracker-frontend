@@ -1,9 +1,22 @@
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
 .project-details {
     display: flex;
     flex-direction: column;
     height: 70vh;
     padding: .65rem 1rem 1rem 1.5rem;
     flex-direction: column-reverse;
+    animation: transitionIn .75s;
 
     .project-details-container {
         display: flex;
@@ -58,11 +71,25 @@
     .edit-project-container {
         display: flex;
         justify-content: center;
-        align-items: c;
+        align-items: center;
         justify-content: flex-start;
         height: 4rem;
 
         .project-description-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(.1rem);
+            z-index: 3;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .project-description-backdrop-delete {
             position: fixed;
             top: 0;
             left: 0;
@@ -115,19 +142,80 @@
             }
         }
 
+        .delete-project-modal {
+            position: fixed;
+            z-index: 4;
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            background-color: rgb(31, 31, 31);
+            width: 80vw;
+            height: 40vh;
+            position: absolute;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: .5rem 1rem 1rem 1rem;
+
+            .button-container {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+
+                div {
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                    font-size: 2rem;
+                }
+
+                .add-dev-submit {
+                    width: 8rem;
+                    height: 2rem;
+                    background-color: rgb(243, 52, 52);
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+            }
+        }
+
         .edit-project-button:active {
             background-color: rgb(35, 119, 35);
         }
     }
 
-    .edit-project-button {
-        justify-content: center;
-        width: 6rem;
-        height: 2rem;
-        background-color: rgb(47, 165, 47);
-        font-weight: bold;
-        font-size: .9rem;
-        cursor: pointer;
+    .project-button-container {
+        display: flex;
+        justify-content: space-between;
+
+        .edit-project-button {
+            justify-content: center;
+            width: 8rem;
+            height: 2rem;
+            background-color: rgb(47, 165, 47);
+            font-weight: bold;
+            font-size: .9rem;
+            cursor: pointer;
+        }
+
+        .delete-project-button {
+            justify-content: center;
+            width: 8rem;
+            height: 2rem;
+            background-color: rgb(243, 52, 52);
+            font-weight: bold;
+            font-size: .9rem;
+            cursor: pointer;
+        }
     }
 
     .edit-project .project-description-backdrop {
@@ -136,6 +224,16 @@
     }
 
     .edit-project .edit-project-modal {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .delete-project .project-description-backdrop-delete {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .delete-project .delete-project-modal {
         visibility: visible;
         opacity: 1;
     }
@@ -149,11 +247,13 @@
             .edit-project-modal {
                 width: 40vw;
             }
-        }
 
-        .edit-project-container {
             .edit-project-button {
                 margin-bottom: 2rem;
+            }
+
+            .delete-project-modal {
+                width: 30vw;
             }
         }
     }

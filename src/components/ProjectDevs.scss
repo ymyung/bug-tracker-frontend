@@ -1,3 +1,15 @@
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
 .project-devs {
     display: flex;
     flex-direction: column;
@@ -5,6 +17,7 @@
     justify-content: space-between;
     padding: 1rem;
     padding-top: 0;
+    animation: transitionIn .75s;
 
     .devs-number-container {
         display: flex;

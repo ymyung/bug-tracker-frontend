@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 
 import './TicketEdit.scss'
@@ -11,34 +11,30 @@ const TicketEdit = ({ ticketEdit, closeTicketEdit, currentTicket }) => {
     const [editResolved, setEditResolved] = useState('')
     const { user } = useAuthContext()
 
+    // set edit ticket values
+    useEffect(() => {
+        if (currentTicket !== {}) {
+            setEditTitle(currentTicket.title ? currentTicket.title : '')
+            setEditDescription(currentTicket.description)
+            setEditPriority(currentTicket.priority)
+            setEditType(currentTicket.type)
+        }
+    }, [currentTicket])
+
+    // edit ticket
     const handleTicketEdit = (e) => {
         e.preventDefault()
 
         const editTicket = async () => {
             try {
                 const requestBody = {};
-
-                if (editTitle) {
-                    requestBody.title = editTitle;
-                } 
-                
-                if (editDescription) {
+                requestBody.title = editTitle;
                 requestBody.description = editDescription;
-                }
-                
-                if (editPriority) {
                 requestBody.priority = editPriority;
-                }
-                
-                if (editType) {
                 requestBody.type = editType;
-                }
-                
-                if (editResolved) {
                 requestBody.resolved = editResolved;
-                }
 
-                const jsonData = await fetch(`http://localhost:4000/ticket/${currentTicket._id}`, {
+                await fetch(`http://localhost:4000/ticket/${currentTicket._id}`, {
                     method: 'PATCH',
                     headers: {'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json'},
                     body: JSON.stringify(requestBody)
@@ -78,7 +74,7 @@ const TicketEdit = ({ ticketEdit, closeTicketEdit, currentTicket }) => {
                         </div>
                         <div className='TicketEdit-body-subcontainer'>
                             <p>Priority:</p>
-                            <select className='TicketEdit-body-subcontainer-bottom' name="" id="" defaultValue='' onChange={(e) => setEditPriority(e.target.value)}>
+                            <select className='TicketEdit-body-subcontainer-bottom' name="" id="" onChange={(e) => setEditPriority(e.target.value)} value={editPriority}>
                                 <option value="" disabled>Select One</option>
                                 <option value="low">low</option>
                                 <option value="medium">medium</option>
@@ -88,7 +84,7 @@ const TicketEdit = ({ ticketEdit, closeTicketEdit, currentTicket }) => {
                         </div>
                         <div className='TicketEdit-body-subcontainer'>
                             <p>Type:</p>
-                            <select className='TicketEdit-body-subcontainer-bottom' name="" id="" defaultValue='' onChange={(e) => setEditType(e.target.value)}>
+                            <select className='TicketEdit-body-subcontainer-bottom' name="" id="" onChange={(e) => setEditType(e.target.value)} value={editType}>
                                 <option value="" disabled>Select One</option>
                                 <option value="ui">ui</option>
                                 <option value="performance">performance</option>
@@ -97,7 +93,7 @@ const TicketEdit = ({ ticketEdit, closeTicketEdit, currentTicket }) => {
                         </div>
                         <div className='TicketEdit-body-subcontainer'>
                             <p>Resolved:</p>
-                            <input className='TicketEdit-body-subcontainer-bottom editCheckbox' placeholder='date resolved' type="checkbox" onChange={handleResolvedChange} />
+                            <input className='TicketEdit-body-subcontainer-bottom editCheckbox' defaultValue='' placeholder='date resolved' type="checkbox" onChange={handleResolvedChange} />
                         </div>
                         <div className='TicketEdit-buttons-container'>
                             <button className='TicketEdit-button'>Save Changes</button>

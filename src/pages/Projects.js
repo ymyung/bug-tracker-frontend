@@ -26,6 +26,10 @@ const Projects = () => {
     // get all projects
     const [allProjects, setAllProjects] = useState([])
     const [currentProject, setCurrentProject] = useState({})
+    const [currentProjectId, setCurrentProjectId] = useState('')
+
+    // all tickets
+    const [currentProjectTickets, setProjectCurrentTickets] = useState([])
 
     // Change what is shown on page: details, devs, tickets
     const changeRender = (type) => {
@@ -76,6 +80,8 @@ const Projects = () => {
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
                 })
+
+                setUpdateList(prev => prev + 1)
             } catch (error) {
                 throw error
             }
@@ -102,8 +108,15 @@ const Projects = () => {
 
                 const data = await response.json()
 
-                setAllProjects(data)
                 setCurrentProject(data[0])
+
+                if (currentProjectId) {
+                    const filteredData = data.filter(project => project._id === currentProjectId);
+                    setCurrentProject(filteredData.length > 0 ? filteredData[0] : null);
+                }
+
+                setAllProjects(data)
+                setProjectCurrentTickets(data[0].tickets)
             } catch (error) {
                 throw error
             }
@@ -112,18 +125,26 @@ const Projects = () => {
         if (user) {
             getProjects()
         }
-    }, [user, renderProjects, updateList])
+    }, [user, renderProjects, currentProjectId, updateList])
 
-    // update rendered project
-    const changeCurrentProject = (project) => {
-        setCurrentProject(prev => project)
-    }
+    useEffect(() => {
+        if (currentProject === undefined) {
+            setCurrentProject(allProjects[0])
+        }
+    }, [currentProject, allProjects])
+
+    useEffect(() => {
+        if (currentProjectId !== '') {
+            setCurrentProject(allProjects.find(project => project._id === currentProjectId))
+        }
+    }, [currentProjectId, allProjects])
 
     return (
         <div className='project'>
             <div className="project-top">
                 <div className={buttonsTop}>
                     <div onClick={closeNewProject} className="backdrop"></div>
+
                     <form className="new-project-modal" onSubmit={(e) => handleNewProject(e)}>
                         <div className="new-project-title">
                             <h3>New Project</h3>
@@ -140,10 +161,11 @@ const Projects = () => {
                             <button className="new-project-button">Create</button>
                         </div>
                     </form>
+
                     <button onClick={newProject} type='button' className="project-top-buttons create-new">New Project</button>
-                    <select className='project-top-buttons' name="Projects" id="projects" onChange={(e) => changeCurrentProject(allProjects[e.target.value])} >
+                    <select className='project-top-buttons' name="Projects" id="projects" onChange={(e) => setCurrentProjectId(e.target.value)} value={currentProjectId} >
                         {allProjects && allProjects.map((project, i) => (
-                            <option key={i} value={i} defaultValue>{project.title}</option>
+                            <option key={i} value={project._id} defaultValue>{project.title}</option>
                         ))}
                     </select>
                 </div>
@@ -161,7 +183,7 @@ const Projects = () => {
                     bodyRender === 'devs' && <ProjectDevs currentProject={currentProject} setUpdateList={setUpdateList} />
                 }
                 {
-                    bodyRender === 'tickets' && <ProjectTickets currentProject={currentProject} />
+                    bodyRender === 'tickets' && <ProjectTickets currentProject={currentProject} setUpdateList={setUpdateList} currentProjectTickets={currentProjectTickets} />
                 }
             </div>
         </div>

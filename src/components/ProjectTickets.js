@@ -4,16 +4,15 @@ import { useAuthContext } from '../hooks/useAuthContext'
 
 import './ProjectTickets.scss'
 
-const ProjectTickets = ({ currentProject }) => {
+const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }) => {
     const [newTicketContainer, setNewTicketContainer] = useState('new-ticket-container')
     const { user } = useAuthContext()
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(8)
+    const [postsPerPage] = useState(8)
 
     const [searchValue, setSearchValue] = useState('')
     const [currentUsers, setCurrentUsers] = useState([])
-    const [currentUser, setCurrentUser] = useState({})
 
     // add ticket values
     const [newTitle, setNewTitle] = useState('')
@@ -25,7 +24,11 @@ const ProjectTickets = ({ currentProject }) => {
     const [newType, setNewType] = useState('')
     const [newPriority, setNewPriority] = useState('')
     const [newStatus] = useState('open')
-    const [newDateResolved, setNewDateResolved] = useState('')
+    const [newDateResolved] = useState('')
+
+    // remove ticket
+    const [removeTicket, setRemoveTicket] = useState('')
+    const [removeTicketObject, setRemoveTicketObject] = useState({})
 
     // open new ticket/remove ticket modals
     const openNewTicket = () => {
@@ -48,6 +51,7 @@ const ProjectTickets = ({ currentProject }) => {
         } else if (ticket.title.toLowerCase().includes(searchValue.toLowerCase())) {
             return ticket
         }
+        return false
     })
 
     // get current posts
@@ -88,7 +92,7 @@ const ProjectTickets = ({ currentProject }) => {
         if (user) {
             getUsers()
         }
-    }, [])
+    }, [user, currentProject])
 
     // get current dev
     useEffect(() => {
@@ -100,7 +104,6 @@ const ProjectTickets = ({ currentProject }) => {
 
                 const data = await response.json()
 
-                setCurrentUser(data)
                 setNewCreatedBy(data._id)
             } catch (error) {
                 throw error
@@ -110,11 +113,63 @@ const ProjectTickets = ({ currentProject }) => {
         if (user) {
             getCurrentDev()
         }
-    }, [])
+    }, [user])
 
     // handle new ticket
     const handleNewTicket = (e) => {
         e.preventDefault()
+
+        const newTicket = async () => {
+            try {
+                // create ticket
+                const requestBody = {}
+                requestBody.title = newTitle
+                requestBody.description = newDescription
+                requestBody.createdBy = newCreatedBy
+                requestBody.dev = newDev
+                requestBody.dateCreated = newDateCreated
+                requestBody.dueDate = newDueDate
+                requestBody.type = newType
+                requestBody.priority = newPriority
+                requestBody.status = newStatus
+                requestBody.dateResolved = newDateResolved
+
+                const response = await fetch('http://localhost:4000/ticket/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
+                    body: JSON.stringify(requestBody)
+                })
+
+                // get ticket id
+                const data = await response.json()
+
+                // add ticket to project and devs array
+                const requestBody2 = {}
+                requestBody2._id = data._id
+                requestBody2.userId = newDev
+
+                await fetch(`http://localhost:4000/project/addTicket/${currentProject._id}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
+                    body: JSON.stringify(requestBody2)
+                })
+
+                setNewTitle('')
+                setNewDescription('')
+                setNewDev('')
+                setNewDueDate('')
+                setNewType('')
+                setNewPriority('')
+
+                setUpdateList(prev => prev + 1)
+            } catch(error) {
+                throw error
+            }
+        }
+
+        if (user) {
+            newTicket()
+        }
 
         closeNewTicket()
     }
@@ -122,9 +177,47 @@ const ProjectTickets = ({ currentProject }) => {
     // handle remove ticket
     const handleRemoveTicket = (e) => {
         e.preventDefault()
+        const removeHandler = async () => {
+            try {
+                // remove ticket from project and user array
+                const requestBody = {}
+                requestBody._id = removeTicket
+                requestBody.userId = removeTicketObject.dev._id
+
+                await fetch(`http://localhost:4000/project/deleteTicket/${currentProject._id}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
+                    body: JSON.stringify(requestBody)
+                })
+
+                // delete ticket
+                await fetch(`http://localhost:4000/ticket/${removeTicket}`, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`}
+                })
+
+                setRemoveTicket('')
+                setRemoveTicketObject({})
+
+                setUpdateList(prev => prev + 1)
+            } catch(error) {
+                throw error
+            }
+        }
+
+        if (user) {
+            removeHandler()
+        }
 
         closeNewTicket()
     }
+
+    // find the title of the select ticket to be deleted 
+    useEffect(() => {
+        if (currentProjectTickets !== '') {
+            setRemoveTicketObject(currentProjectTickets.find(ticket => ticket._id === removeTicket))
+        }
+    }, [removeTicket, currentProjectTickets])
 
     return (
         <div className='project-tickets'>
@@ -136,25 +229,25 @@ const ProjectTickets = ({ currentProject }) => {
                     <form className="new-ticket-modal" onSubmit={(e) => handleNewTicket(e)}>
                         <div className="new-ticket-title">
                             <p>Title: </p>
-                            <input required className='new-ticket-input' placeholder='Title' type="text" onChange={(e) => setNewTitle(e.target.value)} />
+                            <input required className='new-ticket-input' placeholder='Title' type="text" onChange={(e) => setNewTitle(e.target.value)} value={newTitle} />
                         </div>
                         <div className="new-ticket-description">
                             <p>Description: </p>
-                            <textarea required className='new-ticket-input' placeholder='Edit Description' name="edit-description" id="edit-description" cols="30" rows="4" onChange={(e) => setNewDescription(e.target.value)} />
+                            <textarea required className='new-ticket-input' placeholder='Edit Description' name="edit-description" id="edit-description" cols="30" rows="4" onChange={(e) => setNewDescription(e.target.value)} value={newDescription} />
                         </div>
                         <div className="new-ticket-dev">
                             <p>Assigned Developer: </p>
-                            <select required name="new-ticket-dev" defaultValue='' id="new-ticket-dev" onChange={(e) => setNewDev(currentUsers[e.target.value])}>
+                            <select required name="new-ticket-dev" id="new-ticket-dev" onChange={(e) => setNewDev(e.target.value)} value={newDev}>
                                 <option value="" disabled>Select One</option>
                                 {currentUsers.map((user, i) => (
-                                    <option key={i} value={i}>{user.username}</option>
+                                    <option key={i} value={user._id}>{user.username}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="new-ticket-priority">
                             <p>Priority: </p>
-                            <select required name="new-ticket-priority" defaultValue='' id="new-ticket-priority" onChange={(e) => setNewPriority(e.target.value)}>
-                                <option value="" defaultValue disabled>Select One</option>
+                            <select required name="new-ticket-priority" id="new-ticket-priority" onChange={(e) => setNewPriority(e.target.value)} value={newPriority}>
+                                <option value="" disabled>Select One</option>
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
                                 <option value="high">High</option>
@@ -163,8 +256,8 @@ const ProjectTickets = ({ currentProject }) => {
                         </div>
                         <div className="new-ticket-type">
                             <p>Type: </p>
-                            <select required name="new-ticket-type" defaultValue='' id="new-ticket-type" onChange={(e) => setNewType(e.target.value)}>
-                                <option value="" defaultValue disabled>Select One</option>
+                            <select required name="new-ticket-type" id="new-ticket-type" onChange={(e) => setNewType(e.target.value)} value={newType}>
+                                <option value="" disabled>Select One</option>
                                 <option value="bug">Bug</option>
                                 <option value="ui">UI</option>
                                 <option value="performance">Performance</option>
@@ -173,7 +266,7 @@ const ProjectTickets = ({ currentProject }) => {
                         <div className="new-ticket-date">
                             <div>
                                 <p>Due Date: </p>
-                                <input required type="date" onChange={(e) => setNewDueDate(e.target.value)} />
+                                <input required type="date" onChange={(e) => setNewDueDate(e.target.value)} value={newDueDate} />
                             </div>
                             <button className='new-ticket-save'>Add Ticket</button>
                         </div>
@@ -182,17 +275,19 @@ const ProjectTickets = ({ currentProject }) => {
                     <form className="remove-ticket-modal" onSubmit={(e) => handleRemoveTicket(e)}>
                         <div className='modal-top'>
                             <div>Select Dev:</div>
-                            <select required name="" id="" defaultValue='' className='modal-devs'>
-                                <option value="" disabled>Select</option>
-                                
+                            <select required name="remove-ticket" id="remove-ticket" className='modal-devs' onChange={(e) => setRemoveTicket(e.target.value)} value={removeTicket}>
+                                <option value="" disabled>Select One</option>
+                                {currentProjectTickets.map((ticket, i) => (
+                                    <option value={ticket._id} key={i}>{ticket.title}</option>
+                                ))}
                             </select>
                         </div>
                         <div className="modal-middle">
                             <div className="">Selected:</div>
-                            <div className="modal-selected-user"></div>
+                            <div className="modal-selected-user">{removeTicketObject && removeTicketObject.title}</div>
                         </div>
                         <div className="button-container">
-                            <button className='remove-ticket'>Remove dev</button>
+                            <button className='remove-ticket'>Remove Ticket</button>
                         </div>
                     </form>
 

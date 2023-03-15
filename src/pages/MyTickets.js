@@ -59,6 +59,7 @@ const MyTickets = () => {
         } else if (ticket.title.toLowerCase().includes(searchValue.toLowerCase())) {
             return ticket
         }
+        return null
     })
 
     // get current posts

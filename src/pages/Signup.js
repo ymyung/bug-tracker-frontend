@@ -9,7 +9,7 @@ const Signup = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('')
-    const [image, setImage] = useState(null)
+    const [image] = useState(null)
     const { signup, error, isLoading } = useSignup()
 
     const handleSubmit = async (e) => {
@@ -45,8 +45,6 @@ const Signup = () => {
                     <option value="admin">Administrator</option>
                     <option value="manager">Manager</option>
                 </select>
-                <label className='signup-labels'>Profile Image:</label>
-                <input className='signup-image' onChange={(e) => setImage(e.target.value)} type="file" id="signup-image" name="signup-image"></input>
 
                 <button disabled={isLoading}>Submit</button>
                 {error && <div className='signup-error'>{error}</div>}
