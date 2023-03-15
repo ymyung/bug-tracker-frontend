@@ -33,6 +33,17 @@ const Login = () => {
                 <button disabled={isLoading}>Submit</button>
                 {error && <div className='login-error'>{error}</div>}
             </div>
+            <div className="test-user">
+                <div className="title">Guest Login</div>
+                <div className="email">
+                    <div className="email-left">Email:</div>
+                    <div className="email-right">testuser@gmail.com</div>
+                </div>
+                <div className="password">
+                    <div className="password-left">Password:</div>
+                    <div className="password-right">dA08T8Fwit0^</div>
+                </div>
+            </div>
         </form>
     )
 }

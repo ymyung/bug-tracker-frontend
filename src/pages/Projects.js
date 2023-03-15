@@ -109,14 +109,15 @@ const Projects = () => {
                 const data = await response.json()
 
                 setCurrentProject(data[0])
+                setProjectCurrentTickets(data[0].tickets)
 
                 if (currentProjectId) {
                     const filteredData = data.filter(project => project._id === currentProjectId);
                     setCurrentProject(filteredData.length > 0 ? filteredData[0] : null);
+                    setProjectCurrentTickets(filteredData[0].tickets)
                 }
 
                 setAllProjects(data)
-                setProjectCurrentTickets(data[0].tickets)
             } catch (error) {
                 throw error
             }
@@ -158,7 +159,7 @@ const Projects = () => {
                             <textarea className='new-project-inputs' required placeholder='Description' name="description" id="description" cols="30" rows="6" value={newProjectDescription} onChange={(e) => setNewProjectDescription(e.target.value)}></textarea>
                         </div>
                         <div className="new-project-button-container">
-                            <button className="new-project-button">Create</button>
+                            <button className="new-project-button" disabled>Create</button>
                         </div>
                     </form>
 

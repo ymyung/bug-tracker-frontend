@@ -10,7 +10,7 @@ const Signup = () => {
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('')
     const [image] = useState(null)
-    const { signup, error, isLoading } = useSignup()
+    const { signup, error } = useSignup()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -46,7 +46,7 @@ const Signup = () => {
                     <option value="manager">Manager</option>
                 </select>
 
-                <button disabled={isLoading}>Submit</button>
+                <button disabled>Submit</button>
                 {error && <div className='signup-error'>{error}</div>}
             </div>
         </form>

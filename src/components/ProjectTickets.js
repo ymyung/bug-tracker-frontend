@@ -13,6 +13,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
 
     const [searchValue, setSearchValue] = useState('')
     const [currentUsers, setCurrentUsers] = useState([])
+    const [currentTickets, setCurrentTickets] = useState([])
 
     // add ticket values
     const [newTitle, setNewTitle] = useState('')
@@ -29,6 +30,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
     // remove ticket
     const [removeTicket, setRemoveTicket] = useState('')
     const [removeTicketObject, setRemoveTicketObject] = useState({})
+    const [filteredData, setFilteredData] = useState([])
 
     // open new ticket/remove ticket modals
     const openNewTicket = () => {
@@ -45,19 +47,39 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
     }
 
     // filter devs based on search
-    const filteredData = currentProject.tickets.filter((ticket) => {
-        if (searchValue === '') {
-            return ticket
-        } else if (ticket.title.toLowerCase().includes(searchValue.toLowerCase())) {
-            return ticket
+    useEffect(() => {
+        if (currentProjectTickets) {
+            const data = currentProjectTickets.filter((ticket) => {
+                if (searchValue === '') {
+                    return ticket
+                } else if (ticket.title.toLowerCase().includes(searchValue.toLowerCase())) {
+                    return ticket
+                }
+                return false
+            })
+
+            setFilteredData(data)
         }
-        return false
-    })
+    }, [currentProjectTickets, searchValue])
 
     // get current posts
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
-    const currentTickets = Array.isArray(filteredData) && filteredData.slice(indexOfFirstPost, indexOfLastPost)
+    useEffect(() => {
+        if (currentProjectTickets) {
+            const data = currentProjectTickets.filter((ticket) => {
+                if (searchValue === '') {
+                    return ticket
+                } else if (ticket.title.toLowerCase().includes(searchValue.toLowerCase())) {
+                    return ticket
+                }
+                return false
+            })
+    
+            setFilteredData(data)
+            setCurrentTickets(data.slice(indexOfFirstPost, indexOfLastPost))
+        }
+    }, [currentProjectTickets, searchValue, indexOfFirstPost, indexOfLastPost])
 
     // change page
     const paginate = (pageNumber) => {
@@ -214,7 +236,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
 
     // find the title of the select ticket to be deleted 
     useEffect(() => {
-        if (currentProjectTickets !== '') {
+        if (currentProjectTickets !== '' && removeTicket) {
             setRemoveTicketObject(currentProjectTickets.find(ticket => ticket._id === removeTicket))
         }
     }, [removeTicket, currentProjectTickets])
@@ -268,7 +290,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                                 <p>Due Date: </p>
                                 <input required type="date" onChange={(e) => setNewDueDate(e.target.value)} value={newDueDate} />
                             </div>
-                            <button className='new-ticket-save'>Add Ticket</button>
+                            <button className='new-ticket-save' disabled>Add Ticket</button>
                         </div>
                     </form>
 
@@ -277,7 +299,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                             <div>Select Dev:</div>
                             <select required name="remove-ticket" id="remove-ticket" className='modal-devs' onChange={(e) => setRemoveTicket(e.target.value)} value={removeTicket}>
                                 <option value="" disabled>Select One</option>
-                                {currentProjectTickets.map((ticket, i) => (
+                                {currentProjectTickets && currentProjectTickets.map((ticket, i) => (
                                     <option value={ticket._id} key={i}>{ticket.title}</option>
                                 ))}
                             </select>
@@ -287,7 +309,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                             <div className="modal-selected-user">{removeTicketObject && removeTicketObject.title}</div>
                         </div>
                         <div className="button-container">
-                            <button className='remove-ticket'>Remove Ticket</button>
+                            <button className='remove-ticket' disabled>Remove Ticket</button>
                         </div>
                     </form>
 
@@ -295,7 +317,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                     <button onClick={openRemoveTicket} className="new-ticket-right">Remove</button>
                 </div>
                 <div className="tickets-number-container">
-                    <div className="tickets-number">Tickets: {filteredData && filteredData.length}</div>
+                    <div className="tickets-number">Tickets: {currentProjectTickets && currentProjectTickets.length}</div>
                 </div>
                 <div className="tickets-title-right">
                     <input className='tickets-search' type="text" placeholder="Search.." onChange={(e) => setSearchValue(e.target.value)} value={searchValue} />
@@ -317,7 +339,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                         <div className="tickets-container-bottom">
                             <div className="tickets-email">
                                 <p className="tickets-left">Due Date:</p>
-                                <p>{ticket.dueDate.slice(0, 7)}</p>
+                                <p>{ticket.dueDate.slice(0, 10)}</p>
                             </div>
                             <div className="tickets-priority">
                                 <p className="tickets-left">Priority:</p>

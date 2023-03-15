@@ -30,7 +30,6 @@ const Navbar = () => {
     const logoutClose = () => {
         setLogoutContainer('logout--container')
         setNavbar('navbar')
-        logout()
     }
 
     const logoutCloseAll = () => {

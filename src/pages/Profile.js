@@ -9,7 +9,7 @@ const Profile = () => {
     const [passwordChange, setPasswordChange] = useState('')
     const [userData, setUserData] = useState({})
     const { dispatch, user } = useAuthContext()
-    const { changePassword, isLoading, error } = useChangePassword()
+    const { changePassword, error } = useChangePassword()
 
     const openChangePassword = () => {
         setProfilePasswordContainer('profile-password-container change-password')
@@ -23,15 +23,15 @@ const Profile = () => {
         e.preventDefault()
 
         changePassword(passwordChange, userData)
+
+        closeChangePassword()
     }
 
     // get user
-    const userEmail = user.email
-
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/user/email/${userEmail}`, {
+                const response = await fetch(`http://localhost:4000/user/email/${user.email}`, {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 });
                 const data = await response.json();
@@ -67,7 +67,7 @@ const Profile = () => {
                     {/* change password modal */}
                     <form className="profile-modal" onSubmit={(e) => changePasswordCheck(e)}>
                         <input type="password" onChange={(e) => setPasswordChange(e.target.value)} />
-                        <button disabled={isLoading}>Change Password</button>
+                        <button disabled className='password-button'>Change Password</button>
                         {error && <div>Invalid Password</div>}
                     </form>
                 </div>

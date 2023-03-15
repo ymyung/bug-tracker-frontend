@@ -7,6 +7,8 @@
     width: 100vw;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     .login-container {
         display: flex;
@@ -15,7 +17,7 @@
         height: 40vh;
         align-items: center;
         justify-content: center;
-        margin: auto;
+        margin-bottom: 3rem;
         background-color: wheat;
         border-radius: 1rem;
 
@@ -78,6 +80,35 @@
         .login-error {
             color: black;
             margin-top: .5rem;
+        }
+    }
+
+    .test-user {
+        height: 4rem;
+        width: 15rem;
+        background-color: wheat;
+        border-radius: .5rem;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+        justify-content: center;
+        align-items: center;
+
+        .email {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding-left: .5rem;
+            padding-right: .5rem;
+        }
+
+        .password {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding-left: .5rem;
+            padding-right: .5rem;
         }
     }
 

@@ -111,14 +111,14 @@ const ProjectDescription = ({ currentProject, setCurrentProject, setUpdateList }
                         <textarea className='edit-project-inputs' placeholder='Edit Description' name="edit-description" id="edit-description" cols="30" rows="6" onChange={(e) => setEditDescription(e.target.value)} value={editDescription}></textarea>
                     </div>
                     <div className='project-modal-bottom'>
-                        <button className='modal-bottom-buttons' type='submit'>Save Changes</button>
+                        <button className='modal-bottom-buttons' type='submit' disabled>Save Changes</button>
                     </div>
                 </form>
                 <div onClick={closeEdit} className="project-description-backdrop-delete"></div>
                 <form className="delete-project-modal" onSubmit={(e) => handleProjectDelete(e)}>
                     <div className="button-container">
                         <div>Are you sure you want to delete this project?</div>
-                        <button className='add-dev-submit' onClick={closeEdit}>Delete Project</button>
+                        <button className='add-dev-submit' onClick={closeEdit} disabled>Delete Project</button>
                     </div>
                 </form>
             </div>

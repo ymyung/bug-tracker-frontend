@@ -96,7 +96,7 @@ const TicketEdit = ({ ticketEdit, closeTicketEdit, currentTicket }) => {
                             <input className='TicketEdit-body-subcontainer-bottom editCheckbox' defaultValue='' placeholder='date resolved' type="checkbox" onChange={handleResolvedChange} />
                         </div>
                         <div className='TicketEdit-buttons-container'>
-                            <button className='TicketEdit-button'>Save Changes</button>
+                            <button className='TicketEdit-button' disabled>Save Changes</button>
                         </div>
                     </form>
                 </div>

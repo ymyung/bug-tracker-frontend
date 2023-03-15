@@ -8,7 +8,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
     const [addDevContainer, setAddDevContainer] = useState("add-dev-container")
     const [allUsers, setAllUsers] = useState([])
     const [currentUsers, setCurrentUsers] = useState([])
-    const [selectedUser, setSelectedUser] = useState({})
+    const [selectedUser, setSelectedUser] = useState('')
     const { user } = useAuthContext()
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -75,7 +75,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
             try {
                 const requestBody = {}
 
-                requestBody._id = selectedUser._id
+                requestBody._id = selectedUser
 
                 await fetch(`http://localhost:4000/project/addDeveloper/${currentProject._id}`, {
                     method: 'PATCH',
@@ -84,6 +84,8 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
                 })
 
                 setUpdateList(prev => prev + 1)
+                setSelectedUser('')
+                closeDev()
             } catch (error) {
                 throw error
             }
@@ -92,8 +94,6 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
         if (user) {
             addUser()
         }
-
-        setSelectedUser({})
     }
 
     // handle removing existing user
@@ -104,7 +104,8 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
             try {
                 const requestBody = {}
 
-                requestBody._id = selectedUser._id
+                requestBody._id = selectedUser
+                console.log(selectedUser)
 
                 await fetch(`http://localhost:4000/project/removeDeveloper/${currentProject._id}`, {
                     method: 'PATCH',
@@ -113,6 +114,8 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
                 })
 
                 setUpdateList(prev => prev + 1)
+                setSelectedUser('')
+                closeDev()
             } catch (error) {
                 throw error
             }
@@ -121,8 +124,6 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
         if (user) {
             removeUser()
         }
-
-        setSelectedUser({})
     }
 
     // open add dev modal
@@ -140,6 +141,8 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
         setAddDevContainer('add-dev-container')
     }
 
+    console.log(selectedUser)
+
     return (
         <div className='project-devs'>
             <div className="devs-number-container">
@@ -151,10 +154,10 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
                     <form className="add-dev-modal" onSubmit={(e) => handleAddUser(e)}>
                         <div className='modal-top'>
                             <div>Select Dev:</div>
-                            <select name="" id="" defaultValue='' className='modal-devs' onChange={(e) => setSelectedUser(allUsers[e.target.value])}>
+                            <select name="" id="" className='modal-devs' onChange={(e) => setSelectedUser(e.target.value)} value={selectedUser}>
                                 <option value="" disabled>Select</option>
                                 {allUsers.map((user, i) => (
-                                    <option key={i} value={i}>{user.username}</option>
+                                    <option key={i} value={user._id}>{user.username}</option>
                                 ))}
                             </select>
                         </div>
@@ -163,17 +166,17 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
                             <div className="modal-selected-user">{selectedUser.username}</div>
                         </div>
                         <div className="button-container">
-                            <button className='add-dev-submit'>Add dev</button>
+                            <button className='add-dev-submit' disabled>Add dev</button>
                         </div>
                     </form>
                     
                     <form className="remove-dev-modal" onSubmit={(e) => handleRemoveUser(e)}>
                         <div className='modal-top'>
                             <div>Select Dev:</div>
-                            <select name="" id="" defaultValue='' className='modal-devs' onChange={(e) => setSelectedUser(currentUsers[e.target.value])}>
+                            <select name="" id="" className='modal-devs' onChange={(e) => setSelectedUser(e.target.value)} value={selectedUser}>
                                 <option value="" disabled>Select</option>
                                 {currentUsers.map((user, i) => (
-                                    <option key={i} value={i}>{user.username}</option>
+                                    <option key={i} value={user._id}>{user.username}</option>
                                 ))}
                             </select>
                         </div>
@@ -182,7 +185,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
                             <div className="modal-selected-user">{selectedUser.username}</div>
                         </div>
                         <div className="button-container">
-                            <button className='add-dev-submit'>Remove dev</button>
+                            <button className='remove-dev-submit' disabled>Remove dev</button>
                         </div>
                     </form>
 
