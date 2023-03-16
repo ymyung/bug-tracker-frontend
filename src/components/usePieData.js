@@ -11,7 +11,8 @@ const usePieData = () => {
         const fetchTickets = async () => {
             try {
                 const response = await fetch('https://bug-tracker-backend-ne3r.onrender.com/ticket', {
-                    headers: {'Authorization': `Bearer ${user.token}`}
+                    headers: {'Authorization': `Bearer ${user.token}`},
+                    mode: 'cors'
                 });
                 const data = await response.json();
 
