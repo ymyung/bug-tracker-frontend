@@ -21,7 +21,7 @@ const MyTickets = () => {
         const fetchTickets = async () => {
             try {
                 setLoading(true)
-                const userInfo = await fetch(`https://bug-tracker-backend-61vi.onrender.com/user/email/${user.email}`, {
+                const userInfo = await fetch(`https://bug-tracker-backend-ne3r.onrender.com/user/email/${user.email}`, {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
 

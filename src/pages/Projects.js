@@ -75,7 +75,7 @@ const Projects = () => {
                 requestBody.title = newProjectName
                 requestBody.description = newProjectDescription
 
-                await fetch(`https://bug-tracker-backend-61vi.onrender.com/project`, {
+                await fetch(`https://bug-tracker-backend-ne3r.onrender.com/project`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
@@ -102,7 +102,7 @@ const Projects = () => {
     useEffect(() => {
         const getProjects = async () => {
             try {
-                const response = await fetch('https://bug-tracker-backend-61vi.onrender.com/project', {
+                const response = await fetch('https://bug-tracker-backend-ne3r.onrender.com/project', {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
 
