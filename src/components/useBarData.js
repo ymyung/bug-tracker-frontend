@@ -9,7 +9,7 @@ const useBarData = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch('http://localhost:4000/ticket', {
+                const response = await fetch('https://bug-tracker-backend-61vi.onrender.com/ticket', {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 });
                 const data = await response.json();
@@ -75,6 +75,7 @@ const useBarData = () => {
         } else if (ticketDate === fiveMonths[4]) {
             ticketMonth5++
         }
+        return null
     })
 
     const ticketCountByDateCreated = [ticketMonth1, ticketMonth2, ticketMonth3, ticketMonth4, ticketMonth5]

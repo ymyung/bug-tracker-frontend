@@ -10,7 +10,7 @@ const useFlowData = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch('http://localhost:4000/ticket', {
+                const response = await fetch('https://bug-tracker-backend-61vi.onrender.com/ticket', {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 });
                 const data = await response.json();
@@ -42,6 +42,7 @@ const useFlowData = () => {
         } else if (ticket.type === 'bug') {
             ticketsBug++
         }
+        return null
     })
 
     const ticketCountByType = [ticketsUi, ticketsPerformance, ticketsBug]

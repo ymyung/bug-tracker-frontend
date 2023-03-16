@@ -98,7 +98,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch('http://localhost:4000/user/', {
+                const response = await fetch('https://bug-tracker-backend-61vi.onrender.com/user/', {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
 
@@ -120,7 +120,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
     useEffect(() => {
         const getCurrentDev = async () => {
             try {
-                const response = await fetch(`http://localhost:4000/user/email/${user.email}`, {
+                const response = await fetch(`https://bug-tracker-backend-61vi.onrender.com/user/email/${user.email}`, {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
 
@@ -156,7 +156,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                 requestBody.status = newStatus
                 requestBody.dateResolved = newDateResolved
 
-                const response = await fetch('http://localhost:4000/ticket/', {
+                const response = await fetch('https://bug-tracker-backend-61vi.onrender.com/ticket/', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
@@ -170,7 +170,7 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                 requestBody2._id = data._id
                 requestBody2.userId = newDev
 
-                await fetch(`http://localhost:4000/project/addTicket/${currentProject._id}`, {
+                await fetch(`https://bug-tracker-backend-61vi.onrender.com/project/addTicket/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody2)
@@ -206,14 +206,14 @@ const ProjectTickets = ({ currentProject, setUpdateList, currentProjectTickets }
                 requestBody._id = removeTicket
                 requestBody.userId = removeTicketObject.dev._id
 
-                await fetch(`http://localhost:4000/project/deleteTicket/${currentProject._id}`, {
+                await fetch(`https://bug-tracker-backend-61vi.onrender.com/project/deleteTicket/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
                 })
 
                 // delete ticket
-                await fetch(`http://localhost:4000/ticket/${removeTicket}`, {
+                await fetch(`https://bug-tracker-backend-61vi.onrender.com/ticket/${removeTicket}`, {
                     method: 'DELETE',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`}
                 })

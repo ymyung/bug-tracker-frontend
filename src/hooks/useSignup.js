@@ -12,7 +12,7 @@ export const useSignup = () => {
 
         console.log(username, email, password, role, image)
 
-        const response = await fetch('http://localhost:4000/user/signup', {
+        const response = await fetch('https://bug-tracker-backend-61vi.onrender.com/user/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username, email, password, role, image})

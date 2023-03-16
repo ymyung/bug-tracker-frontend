@@ -9,7 +9,7 @@ export const useChangePassword = () => {
         setError(null)
 
         // change password
-        const response = await fetch(`http://localhost:4000/user/changePassword/${userData._id}`, {
+        const response = await fetch(`https://bug-tracker-backend-61vi.onrender.com/user/changePassword/${userData._id}`, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({password: passwordChange})
