@@ -77,6 +77,7 @@ const useBarData = () => {
         }
         return null
     })
+    console.log(tickets)
 
     const ticketCountByDateCreated = [ticketMonth1, ticketMonth2, ticketMonth3, ticketMonth4, ticketMonth5]
 
