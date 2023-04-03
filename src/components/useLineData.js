@@ -30,15 +30,14 @@ const useLineData = () => {
     // get the last 5 months 
     const getMonthString = (date) => {
         const year = date.getFullYear();
-        const month = date.getMonth() + 2;
-        return `${year}-${month < 10 ? '0' + month : month}`;
-    }
-      
+        const month = date.getMonth() + 1;
+        return `${year}-${month.toString().padStart(2, '0')}`;
+    };
+        
     const getFiveMonths = () => {
         const today = new Date();
-        const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-        const fiveMonthsAgo = new Date(currentMonth - 1);
-        fiveMonthsAgo.setMonth(fiveMonthsAgo.getMonth() - 4);
+        const currentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        const fiveMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 4, 1);
         
         const months = [];
         
