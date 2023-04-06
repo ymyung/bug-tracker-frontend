@@ -31,7 +31,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch(`https://bug-tracker-backend-ne3r.onrender.com/user/email/${user.email}`, {
+                const response = await fetch(`https://localhost:4000/user/email/${user.email}`, {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 });
                 const data = await response.json();

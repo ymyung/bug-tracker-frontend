@@ -38,7 +38,7 @@ const ProjectDescription = ({ currentProject, setCurrentProject, setUpdateList }
                 requestBody.title = editTitle
                 requestBody.description = editDescription
 
-                await fetch(`https://bug-tracker-backend-ne3r.onrender.com/project/${currentProject._id}`, {
+                await fetch(`https://localhost:4000/project/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
@@ -63,7 +63,7 @@ const ProjectDescription = ({ currentProject, setCurrentProject, setUpdateList }
 
         const handleDelete = async () => {
             try {
-                await fetch(`https://bug-tracker-backend-ne3r.onrender.com/project/${currentProject._id}`, {
+                await fetch(`https://localhost:4000/project/${currentProject._id}`, {
                     method: 'DELETE',
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })

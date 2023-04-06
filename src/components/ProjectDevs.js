@@ -48,7 +48,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch('https://bug-tracker-backend-ne3r.onrender.com/user/', {
+                const response = await fetch('https://localhost:4000/user/', {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
 
@@ -77,7 +77,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
 
                 requestBody._id = selectedUser
 
-                await fetch(`https://bug-tracker-backend-ne3r.onrender.com/project/addDeveloper/${currentProject._id}`, {
+                await fetch(`https://localhost:4000/project/addDeveloper/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)
@@ -107,7 +107,7 @@ const ProjectDevs = ({ currentProject, setUpdateList }) => {
                 requestBody._id = selectedUser
                 console.log(selectedUser)
 
-                await fetch(`https://bug-tracker-backend-ne3r.onrender.com/project/removeDeveloper/${currentProject._id}`, {
+                await fetch(`https://localhost:4000/project/removeDeveloper/${currentProject._id}`, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(requestBody)

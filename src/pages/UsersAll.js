@@ -16,7 +16,7 @@ const UsersAll = () => {
         const fetchTickets = async () => {
             try {
                 setLoading(true)
-                const userInfo = await fetch(`https://bug-tracker-backend-ne3r.onrender.com/user/`, {
+                const userInfo = await fetch(`https://localhost:4000/user/`, {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
 

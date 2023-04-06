@@ -9,7 +9,7 @@ const useBarData = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch('https://bug-tracker-backend-ne3r.onrender.com/ticket', {
+                const response = await fetch('https://localhost:4000/ticket', {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 });
                 const data = await response.json();

@@ -15,7 +15,7 @@ const Ticket = ({ oneTicket, renderTicket, allTickets, currentTicket, userUserna
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const userInfo = await fetch(`https://bug-tracker-backend-ne3r.onrender.com/user/${currentTicket.createdBy}`, {
+                const userInfo = await fetch(`https://localhost:4000/user/${currentTicket.createdBy}`, {
                     headers: {'Authorization': `Bearer ${user.token}`}
                 })
     

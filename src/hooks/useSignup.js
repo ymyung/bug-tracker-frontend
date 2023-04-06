@@ -12,7 +12,7 @@ export const useSignup = () => {
 
         console.log(username, email, password, role, image)
 
-        const response = await fetch('https://bug-tracker-backend-ne3r.onrender.com/user/signup', {
+        const response = await fetch('https://localhost:4000/user/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username, email, password, role, image})
